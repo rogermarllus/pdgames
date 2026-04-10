@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/hud.css">
   <link rel="icon" href="/assets/images/icons/favicon.png" type="image/png">
 
   <title>Retro Dungeon</title>
@@ -13,7 +14,72 @@
 
 <body>
   <main>
-    
+    <section id="combat-display">
+      <article class="hud">
+        <h3 id="monster-name">Golem</h3>
+        <div class="hud-wrapper">
+          <div class="hp-bar" id="monster-hp-bar">
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+          </div>
+          <div class="ac-wrapper">
+            <p id="monster-ac">12</p>
+            <img class="icon" src="/assets/images/icons/shield.png" alt="Shield Sprite">
+          </div>
+        </div>
+        <p id="monster-hp">70/70</p>
+      </article>
+      <img id="monster-art" src="/assets/images/monsters/golem.png" alt="Monster Sprite">
+      <article class="hud">
+        <h3 id="player-name">Jogador</h3>
+        <div class="hud-wrapper">
+          <div class="hp-bar" id="player-hp-bar">
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+            <div class="hp-part"></div>
+          </div>
+          <div class="ac-wrapper">
+            <p id="player-ac">14</p>
+            <img class="icon" src="/assets/images/icons/shield.png" alt="Shield Sprite">
+          </div>
+        </div>
+        <p id="player-hp">30/30</p>
+      </article>
+    </section>
+    <section class="menu menu-combat">
+      <div>
+        <button class="button" id="btn-new-game">
+          ATACAR
+        </button>
+        <button class="button" id="btn-load-game">
+          CURAR
+        </button>
+      </div>
+      <div>
+        <button class="button" id="btn-achievements">
+        MAGIA
+      </button>
+      <button class="button" id="btn-credits">
+        RENDER-SE
+      </button>
+      </div>
+    </section>
+  </main>
   </main>
 </body>
 
