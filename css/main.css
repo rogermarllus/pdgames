@@ -1,0 +1,107 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+@font-face {
+  font-family: "Determination";
+  src: url("../assets/fonts/determination.ttf") format("truetype");
+  font-weight: 400;
+}
+
+body {
+  background-color: black;
+
+}
+
+main {
+  background-color: black;
+  font-family: "Determination";
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 35px;
+}
+
+h1#main-title {
+  text-align: center;
+  font-size: 4em;
+  line-height: 80%;
+  margin-top: 40px;
+}
+
+img#main-art {
+  width: 80%;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  width: 80%;
+  margin: auto;
+}
+
+.menu div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+
+.button {
+  background-color: black;
+  color: white;
+  font-family: "Determination";
+  font-size: 24px;
+  padding: 10px 20px;
+  border: 3px solid white;
+  width: 100%;
+}
+
+.button:hover {
+  opacity: 60%;
+  cursor: pointer;
+}
+
+
+/* Responsividade */
+
+@media (min-width: 768px) {
+  h1#main-title {
+    font-size: 6em;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+  }
+
+  img#main-art {
+    width: 35%;
+  }
+
+  .menu div {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .button {
+    font-size: 36px;
+    padding: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  img#main-art {
+    width: 25%;
+  }
+
+  .menu {
+    width: 45%;
+  }
+}
