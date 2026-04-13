@@ -175,6 +175,10 @@ img#main-art {
     font-size: 36px;
     padding: 20px;
   }
+
+  .hud {
+    width: 60%;
+  }
 }
 
 @media (min-width: 1024px) {
