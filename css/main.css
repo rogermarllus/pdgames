@@ -37,6 +37,11 @@ h1#main-title {
   line-height: 80%;
 }
 
+h2 {
+  text-align: center;
+  font-size: 3em;
+}
+
 img#main-art {
   width: 80%;
 }
@@ -60,7 +65,7 @@ img#main-art {
   width: 100%;
 }
 
-.button {
+.btn {
   background-color: black;
   color: white;
   font-family: "Determination";
@@ -70,9 +75,27 @@ img#main-art {
   width: 100%;
 }
 
-.button:hover {
+.btn:hover {
   opacity: 60%;
   cursor: pointer;
+}
+
+#btn-back {
+  font-size: 18px;
+  padding: 10px 20px;
+  width: fit-content;
+  margin-top: 30px;
+  margin-left: 30px;
+}
+
+.btn-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px 10px;
 }
 
 /* Tela de Combate */
@@ -100,6 +123,14 @@ img#main-art {
 .hud-wrapper {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
@@ -151,6 +182,71 @@ img#main-art {
   font-size: 20px;
 }
 
+.preparation-form {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+}
+
+label {
+  font-size: 24px;
+}
+
+.input-container {
+  width: 100%;
+}
+
+.select-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.slct {
+  border: 3px solid white;
+  background-color: black;
+  color: white;
+  font-family: "Determination";
+  font-size: 24px;
+  padding: 10px 20px;
+  width: 100%;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  background-image: url("../assets/images/icons/arrow-down.png");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 25px;
+
+  padding-right: 50px;
+}
+
+#spell-description {
+  border: 3px solid white;
+  text-align: justify;
+  padding: 10px 20px;
+}
+
+#btn-start-combat {
+  width: fit-content;
+  padding: 10px 50px;
+}
 
 /* Responsividade */
 
@@ -171,13 +267,22 @@ img#main-art {
     width: 100%;
   }
 
-  .button {
+  .btn {
     font-size: 36px;
     padding: 20px;
   }
 
   .hud {
     width: 60%;
+  }
+
+  .btn-icon {
+    padding: 10px;
+  }
+
+  .preparation-form {
+    width: 50%;
+    gap: 30px;
   }
 }
 
@@ -188,5 +293,19 @@ img#main-art {
 
   .menu {
     width: 45%;
+  }
+
+  .form-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    width: 100%;
+  }
+
+  .preparation-form {
+    width: 40%;
+    gap: 30px;
   }
 }
