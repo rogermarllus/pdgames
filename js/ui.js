@@ -36,17 +36,3 @@ export function showSelectLoading(selectId, message) {
   const select = document.getElementById(selectId);
   select.innerHTML = `<option disabled selected>${message}</option>`;
 }
-
-export function showError(message) {
-  const errorArea = document.getElementById("error-message");
-  if (!errorArea) return;
-  errorArea.textContent = message;
-  errorArea.style.display = "block";
-}
-
-export function hideError() {
-  const errorArea = document.getElementById("error-message");
-  if (!errorArea) return;
-  errorArea.textContent = "";
-  errorArea.style.display = "none";
-}
