@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/assets/images/icons/favicon.png" type="image/png">
+
+  <title>Retro Dungeon</title>
+</head>
+
+<body>
+
+  <div class="transition-screen" id="loading-screen">
+    <p id="loading-text">Carregando</p>
+  </div>
+
+  <div class="transition-screen" id="error-screen">
+    <h2 id="error-title">ATENÇÃO</h2>
+    <div id="error-info">
+      <p>Erro na API: <span id="error-code">—</span></p>
+      <p id="error-detail"></p>
+    </div>
+    <button class="btn" id="btn-retry">TENTAR NOVAMENTE</button>
+  </div>
+
+  <script type="module" src="/js/pages/error-loading.js"></script>
+</body>
+
+</html>

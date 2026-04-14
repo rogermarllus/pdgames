@@ -1,6 +1,7 @@
 * {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
@@ -14,14 +15,17 @@
   font-weight: 400;
 }
 
+/* Base */
+
+html,
 body {
   background-color: black;
-
+  height: 100%;
 }
 
 main {
   background-color: black;
-  font-family: "Determination";
+  font-family: "Determination", monospace;
   color: white;
   display: flex;
   flex-direction: column;
@@ -29,6 +33,7 @@ main {
   align-items: center;
   gap: 35px;
   padding-top: 40px;
+  padding-bottom: 40px;
 }
 
 h1#main-title {
@@ -45,6 +50,48 @@ h2 {
 img#main-art {
   width: 80%;
 }
+
+/* Botões */
+
+.btn {
+  background-color: black;
+  color: white;
+  font-family: "Determination", monospace;
+  font-size: 24px;
+  padding: 10px 20px;
+  border: 3px solid white;
+  width: 100%;
+  cursor: pointer;
+}
+
+.btn:hover {
+  opacity: 60%;
+}
+
+.btn:disabled {
+  opacity: 30%;
+  cursor: not-allowed;
+}
+
+#btn-back {
+  font-size: 18px;
+  padding: 10px 20px;
+  width: fit-content;
+  margin-top: 30px;
+  margin-left: 30px;
+}
+
+.btn-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+}
+
+/* Menu */
 
 .menu {
   display: flex;
@@ -65,40 +112,12 @@ img#main-art {
   width: 100%;
 }
 
-.btn {
-  background-color: black;
-  color: white;
-  font-family: "Determination";
-  font-size: 24px;
-  padding: 10px 20px;
-  border: 3px solid white;
-  width: 100%;
+.icon {
+  width: 35px;
+  height: 35px;
 }
 
-.btn:hover {
-  opacity: 60%;
-  cursor: pointer;
-}
-
-#btn-back {
-  font-size: 18px;
-  padding: 10px 20px;
-  width: fit-content;
-  margin-top: 30px;
-  margin-left: 30px;
-}
-
-.btn-icon {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: fit-content;
-  height: fit-content;
-  padding: 10px 10px;
-}
-
-/* Tela de Combate */
+/* TELA DE COMBATE */
 
 #combat-display {
   display: flex;
@@ -112,75 +131,48 @@ img#main-art {
   width: 60%;
 }
 
-.hud {
-  width: 80%;
-}
+/* Modal de resultado */
 
-.hud h3 {
-  letter-spacing: 10%;
-}
-
-.hud-wrapper {
-  display: flex;
-  flex-direction: row;
+#result-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.88);
   justify-content: center;
   align-items: center;
-  gap: 10px;
-}
-
-.input-wrapper {
-  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+  gap: 24px;
+  font-family: "Determination", monospace;
+  color: white;
+  text-align: center;
+  z-index: 100;
+  padding: 20px;
 }
 
-.hp-bar {
-  width: 100%;
-  border: 3px solid white;
-  padding: 5px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
+#modal-title {
+  font-size: 3.5em;
+  line-height: 1;
 }
 
-.hp-part {
-  background-color: white;
-  width: 100%;
-  height: 30px;
+#modal-message {
+  font-size: 1.6em;
 }
 
-#monster-hp-bar div {
-  background-color: var(--red);
+#result-modal .btn {
+  width: fit-content;
+  padding: 12px 40px;
+  font-size: 1.2em;
 }
 
-#player-hp-bar div {
-  background-color: var(--green);
+.modal--victory #modal-title {
+  color: var(--green);
 }
 
-.icon {
-  width: 35px;
-  height: 35px;
+.modal--defeat #modal-title {
+  color: var(--red);
 }
 
-.ac-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.menu-combat div {
-  flex-direction: row;
-  width: 100%;
-}
-
-.menu-combat button {
-  font-size: 20px;
-}
+/* TELA DE PREPARAÇÃO */
 
 .preparation-form {
   width: 80%;
@@ -202,6 +194,8 @@ img#main-art {
 
 label {
   font-size: 24px;
+  font-family: "Determination", monospace;
+  color: white;
 }
 
 .input-container {
@@ -221,7 +215,7 @@ label {
   border: 3px solid white;
   background-color: black;
   color: white;
-  font-family: "Determination";
+  font-family: "Determination", monospace;
   font-size: 24px;
   padding: 10px 20px;
   width: 100%;
@@ -241,6 +235,9 @@ label {
   border: 3px solid white;
   text-align: justify;
   padding: 10px 20px;
+  font-family: "Determination", monospace;
+  color: white;
+  line-height: 1.5;
 }
 
 #btn-start-combat {
@@ -248,7 +245,109 @@ label {
   padding: 10px 50px;
 }
 
-/* Responsividade */
+#error-message {
+  color: var(--red);
+  font-size: 1em;
+  text-align: center;
+  font-family: "Determination", monospace;
+}
+
+#error-message[hidden] {
+  display: none;
+}
+
+/* TELA DE TRANSIÇÃO */
+
+.transition-screen {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  gap: 24px;
+  font-family: "Determination", monospace;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  background-color: black;
+}
+
+#loading-screen {
+  display: flex;
+}
+
+#loading-text {
+  font-size: 2.5em;
+}
+
+@keyframes ellipsis {
+  0% {
+    content: "";
+  }
+
+  25% {
+    content: ".";
+  }
+
+  50% {
+    content: "..";
+  }
+
+  75% {
+    content: "...";
+  }
+}
+
+#loading-text::after {
+  content: "";
+  display: inline-block;
+  width: 1.4em;
+  text-align: left;
+  animation: ellipsis 1.2s steps(1, end) infinite;
+}
+
+#error-title {
+  font-size: 3em;
+  letter-spacing: 4px;
+}
+
+#error-info {
+  line-height: 1.9;
+}
+
+#error-code {
+  color: var(--red);
+  font-size: 1.05em;
+}
+
+#error-detail {
+  font-size: 0.95em;
+  opacity: 0.85;
+}
+
+#btn-retry {
+  margin-top: 8px;
+  width: fit-content;
+  padding: 12px 40px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.35s ease forwards;
+}
+
+/* RESPONSIVIDADE */
 
 @media (min-width: 768px) {
   h1#main-title {
@@ -276,13 +375,13 @@ label {
     width: 60%;
   }
 
-  .btn-icon {
-    padding: 10px;
-  }
-
   .preparation-form {
     width: 50%;
     gap: 30px;
+  }
+
+  #combat-log {
+    width: 60%;
   }
 }
 
@@ -296,16 +395,16 @@ label {
   }
 
   .form-wrapper {
-    display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
     gap: 40px;
-    width: 100%;
   }
 
   .preparation-form {
     width: 40%;
     gap: 30px;
+  }
+
+  #combat-log {
+    width: 50%;
   }
 }

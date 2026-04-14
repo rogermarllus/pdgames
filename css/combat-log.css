@@ -1,0 +1,32 @@
+#combat-log {
+  width: 80%;
+  max-height: 180px;
+  overflow-y: auto;
+  border: 3px solid white;
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: "Determination", monospace;
+  color: white;
+  scrollbar-width: thin;
+  scrollbar-color: white black;
+}
+
+#combat-log::-webkit-scrollbar {
+  width: 6px;
+}
+
+#combat-log::-webkit-scrollbar-track {
+  background: black;
+}
+
+#combat-log::-webkit-scrollbar-thumb {
+  background-color: white;
+}
+
+.log-entry {
+  font-size: 0.8em;
+  line-height: 1.5;
+  opacity: 0.9;
+}
