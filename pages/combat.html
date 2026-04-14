@@ -7,6 +7,7 @@
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/hud.css">
+  <link rel="stylesheet" href="/css/combat-log.css">
   <link rel="icon" href="/assets/images/icons/favicon.png" type="image/png">
 
   <title>Retro Dungeon</title>
@@ -63,24 +64,24 @@
     </section>
     <section class="menu menu-combat">
       <div>
-        <button class="button" id="btn-new-game">
+        <button class="btn" id="btn-attack">
           ATACAR
         </button>
-        <button class="button" id="btn-load-game">
+        <button class="btn" id="btn-heal">
           CURAR
         </button>
       </div>
       <div>
-        <button class="button" id="btn-achievements">
-        MAGIA
-      </button>
-      <button class="button" id="btn-credits">
-        RENDER-SE
-      </button>
+        <button class="btn" id="btn-spell">
+          MAGIA
+        </button>
+        <button class="btn" id="btn-surrender">
+          RENDER-SE
+        </button>
       </div>
     </section>
   </main>
-  </main>
+  <script type="module" src="/js/pages/combat.js"></script>
 </body>
 
 </html>

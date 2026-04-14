@@ -12,9 +12,48 @@
 </head>
 
 <body>
+  <button class="btn" id="btn-back">VOLTAR</button>
   <main>
-    
+    <h2>PREPARAÇÃO</h2>
+
+    <p id="error-message" style="display: none; color: var(--red);"></p>
+
+    <section class="preparation-form">
+      <div class="form-wrapper">
+        <div class="input-container">
+          <label for="monster-select">Escolha um Monstro</label>
+          <div class="select-wrapper">
+            <select class="slct" name="monster-list" id="monster-select">
+              <option disabled selected>Carregando monstros...</option>
+            </select>
+            <button class="btn btn-icon" id="random-monster">
+              <img class="icon" src="/assets/images/icons/die.png" alt="Monstro Aleatório">
+            </button>
+          </div>
+        </div>
+
+        <div class="input-container">
+          <label for="spell-select">Escolha uma Magia</label>
+          <div class="select-wrapper">
+            <select class="slct" name="spell-list" id="spell-select">
+              <option disabled selected>Carregando magias...</option>
+            </select>
+            <button class="btn btn-icon" id="random-spell">
+              <img class="icon" src="/assets/images/icons/die.png" alt="Magia Aleatória">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <article id="spell-description">
+        Selecione uma magia para ver sua descrição.
+      </article>
+
+      <button class="btn" id="btn-start-combat">INICIAR COMBATE</button>
+    </section>
   </main>
+
+  <script type="module" src="/js/pages/combat-preparation.js"></script>
 </body>
 
 </html>
