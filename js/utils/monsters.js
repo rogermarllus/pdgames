@@ -1,4 +1,6 @@
-const MONSTER_IMAGES = {};
+const MONSTER_IMAGES = {
+  "mimic": "/assets/images/monsters/mimic.png"
+};
 
 const DEFAULT_IMAGE = "/assets/images/monsters/default.png";
 
