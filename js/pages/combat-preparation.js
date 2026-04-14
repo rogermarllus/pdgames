@@ -6,8 +6,6 @@ import {
   populateSpellSelect,
   showSelectLoading,
   showSpellDescription,
-  showError,
-  hideError,
 } from "../ui.js";
 
 function navigateTo(path) {
@@ -97,7 +95,6 @@ async function onStartCombat() {
     const monster = normalizeMonster(raw);
     setMonster(monster);
 
-    // Persiste os dados para a tela de combate
     sessionStorage.setItem("selectedMonster", JSON.stringify(monster));
     sessionStorage.setItem("selectedSpell", JSON.stringify(
       document.getElementById("spell-select").value
@@ -124,9 +121,6 @@ function handleApiError(error, selectId = null) {
     showSelectLoading(selectId, "Erro ao carregar. Tente novamente.");
   }
 }
-
-document.getElementById("btn-back")
-  .addEventListener("click", () => navigateTo("/"));
 
 document.getElementById("random-monster")
   .addEventListener("click", selectRandomMonster);
