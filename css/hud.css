@@ -1,0 +1,64 @@
+.hud {
+  width: 80%;
+}
+
+.hud h3 {
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.hud-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Barra de HP */
+
+.hp-bar {
+  width: 100%;
+  border: 3px solid white;
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.hp-part {
+  background-color: white;
+  width: 100%;
+  height: 30px;
+  transition: opacity 0.3s ease;
+}
+
+#monster-hp-bar .hp-part {
+  background-color: var(--red);
+}
+
+#player-hp-bar .hp-part {
+  background-color: var(--green);
+}
+
+/* AC */
+
+.ac-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Botões de combate  */
+
+.menu-combat div {
+  flex-direction: row;
+  width: 100%;
+}
+
+.menu-combat button {
+  font-size: 20px;
+}
