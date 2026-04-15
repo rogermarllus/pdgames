@@ -43,6 +43,7 @@
     #error-title {
       font-size: 3em;
       letter-spacing: 4px;
+      margin-bottom: 0px;
     }
 
     #error-info {
@@ -50,14 +51,35 @@
     }
 
     #error-detail {
-      font-size: 0.95em;
-      opacity: 0.85;
+      font-size: 1.5em;
     }
 
     #btn-retry {
       margin-top: 8px;
       width: fit-content;
       padding: 12px 40px;
+    }
+
+    .btn {
+      text-decoration: none;
+      text-align: center;
+      background-color: black;
+      color: white;
+      font-family: "Determination", monospace;
+      font-size: 24px;
+      padding: 10px 20px;
+      border: 3px solid white;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      opacity: 60%;
+    }
+
+    .btn:disabled {
+      opacity: 30%;
+      cursor: not-allowed;
     }
   </style>
 </head>
