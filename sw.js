@@ -6,7 +6,9 @@ self.addEventListener("install", event => {
     caches.open(CACHE_NAME).then(cache => {
       return cache.addAll([
         "/",
-        OFFLINE_URL
+        OFFLINE_URL,
+        "/css/main.css",
+        "/assets/images/icons/favicon.png"
       ]);
     })
   );

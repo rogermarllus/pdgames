@@ -4,65 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/assets/images/icons/favicon.png" type="image/png">
 
   <title>Retro Dungeon</title>
 </head>
-
-<style>
-  html,
-  body {
-    background-color: black;
-    height: 100%;
-  }
-
-  main {
-    background-color: black;
-    font-family: "Determination", monospace;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 35px;
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
-
-  .transition-screen {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    gap: 24px;
-    font-family: "Determination", monospace;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    background-color: black;
-  }
-
-  #error-title {
-    font-size: 3em;
-    letter-spacing: 4px;
-  }
-
-  #error-info {
-    line-height: 1.9;
-  }
-
-  #error-detail {
-    font-size: 0.95em;
-    opacity: 0.85;
-  }
-
-  #btn-retry {
-    margin-top: 8px;
-    width: fit-content;
-    padding: 12px 40px;
-  }
-</style>
-
 <body>
   <div class="transition-screen" id="error-screen">
     <h2 id="error-title">ATENÇÃO</h2>
