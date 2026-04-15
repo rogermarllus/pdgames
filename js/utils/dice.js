@@ -1,11 +1,3 @@
-export function rollDie(sides) {
-  return Math.floor(Math.random() * sides) + 1;
-}
-
-export function rollD20() {
-  return rollDie(20);
-}
-
 export function rollDice(notation) {
   const match = String(notation).match(/^(\d+)d(\d+)([+-]\d+)?$/i);
 
@@ -18,13 +10,11 @@ export function rollDice(notation) {
   const sides = parseInt(match[2], 10);
   const bonus = match[3] ? parseInt(match[3], 10) : 0;
 
-  const rolls = Array.from({ length: count }, () => rollDie(sides));
-  const raw = rolls.reduce((sum, r) => sum + r, 0) + bonus;
+  let total = bonus;
 
-  return {
-    total: Math.max(1, raw),
-    rolls,
-    bonus,
-    notation,
-  };
+  for (let i = 0; i < count; i++) {
+    total += Math.floor(Math.random() * sides) + 1;
+  }
+
+  return Math.max(1, total);
 }
