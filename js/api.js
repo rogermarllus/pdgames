@@ -24,9 +24,42 @@ async function fetchWithTimeout(url, ms = TIMEOUT_MS) {
   }
 }
 
+const availableImages = new Set([
+  "adult-bronze-dragon",
+  "balor",
+  "berserker",
+  "bugbear",
+  "cockatrice",
+  "dretch",
+  "gargoyle",
+  "giant-ape",
+  "giant-octopus",
+  "giant-scorpion",
+  "giant-shark",
+  "goblin",
+  "hell-hound",
+  "hill-giant",
+  "knight",
+  "lich",
+  "lion",
+  "lizardfolk",
+  "mimic",
+  "mummy-lord",
+  "nightmare",
+  "satyr",
+  "skeleton",
+  "spider",
+  "stone-golem",
+  "werewolf",
+  "worg"
+]);
+
 export async function fetchMonsterList() {
   const data = await fetchWithTimeout(`${BASE_URL}/monsters`);
-  return data.results;
+
+  return data.results.filter(monster => {
+    return availableImages.has(monster.index);
+  });
 }
 
 export async function fetchMonsterByIndex(index) {

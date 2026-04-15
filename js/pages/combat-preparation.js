@@ -86,24 +86,23 @@ async function selectRandomSpell() {
   await loadSpellDescription(select.value);
 }
 
-async function onStartCombat() {
-  const monsterIndex = document.getElementById("monster-select").value;
+function onStartCombat() {
+  const monsterIndex = document.getElementById("monster-select")?.value;
+  const spellIndex = document.getElementById("spell-select")?.value;
 
-  try {
-    const { fetchMonsterByIndex } = await import("../api.js");
-    const raw = await fetchMonsterByIndex(monsterIndex);
-    const monster = normalizeMonster(raw);
-    setMonster(monster);
-
-    sessionStorage.setItem("selectedMonster", JSON.stringify(monster));
-    sessionStorage.setItem("selectedSpell", JSON.stringify(
-      document.getElementById("spell-select").value
-    ));
-
-    navigateTo("/pages/combat.html");
-  } catch (error) {
-    handleApiError(error);
+  if (!monsterIndex) {
+    showError("Selecione um monstro antes de iniciar o combate.");
+    return;
   }
+
+  const params = new URLSearchParams({
+    action: "to-combat",
+    next: "/pages/combat.html",
+    monster: monsterIndex,
+    ...(spellIndex ? { spell: spellIndex } : {}),
+  });
+
+  window.location.href = `/pages/error-loading.html?${params}`;
 }
 
 function handleApiError(error, selectId = null) {

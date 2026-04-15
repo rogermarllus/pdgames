@@ -15,8 +15,18 @@ export function normalizeMonster(raw) {
     attack_bonus: attackBonus,
     damage_dice: damageDice,
     action_name: actionName,
-    image: raw.image ?? null,
+    image: findMonsterImage(raw.index) ?? null,
   };
+}
+
+function findMonsterImage(name) {
+  if (!name) return null;
+
+  const formattedName = name
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+
+  return `/assets/images/monsters/${formattedName}.png`;
 }
 
 function extractArmorClass(raw) {
