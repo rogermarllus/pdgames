@@ -15,9 +15,11 @@
 
 <body>
   <main>
+
     <section id="combat-display">
+
       <article class="hud">
-        <h3 id="monster-name">Golem</h3>
+        <h3 id="monster-name">Monstro</h3>
         <div class="hud-wrapper">
           <div class="hp-bar" id="monster-hp-bar">
             <div class="hp-part"></div>
@@ -32,15 +34,17 @@
             <div class="hp-part"></div>
           </div>
           <div class="ac-wrapper">
-            <p id="monster-ac">12</p>
-            <img class="icon" src="/assets/images/icons/shield.png" alt="Shield Sprite">
+            <p id="monster-ac">—</p>
+            <img class="icon" src="/assets/images/icons/shield.png" alt="Escudo">
           </div>
         </div>
-        <p id="monster-hp"> PV: 70/70</p>
+        <p id="monster-hp">PV: —/—</p>
       </article>
-      <img id="monster-art" src="/assets/images/monsters/golem.png" alt="Monster Sprite">
+
+      <img id="monster-art" src="/assets/images/monsters/default.png" alt="Sprite do Monstro">
+
       <article class="hud">
-        <h3 id="player-name">Jogador</h3>
+        <h3 id="player-name">Aventureiro</h3>
         <div class="hud-wrapper">
           <div class="hp-bar" id="player-hp-bar">
             <div class="hp-part"></div>
@@ -56,32 +60,36 @@
           </div>
           <div class="ac-wrapper">
             <p id="player-ac">14</p>
-            <img class="icon" src="/assets/images/icons/shield.png" alt="Shield Sprite">
+            <img class="icon" src="/assets/images/icons/shield.png" alt="Escudo">
           </div>
         </div>
         <p id="player-hp">PV: 30/30</p>
       </article>
+
     </section>
+
     <section class="menu menu-combat">
       <div>
-        <button class="btn" id="btn-attack">
-          ATACAR
-        </button>
-        <button class="btn" id="btn-heal">
-          CURAR
-        </button>
+        <button class="btn" id="btn-attack">ATACAR</button>
+        <button class="btn" id="btn-heal">CURAR</button>
       </div>
       <div>
-        <button class="btn" id="btn-spell">
-          MAGIA
-        </button>
-        <button class="btn" id="btn-surrender">
-          RENDER-SE
-        </button>
+        <button class="btn" id="btn-spell">MAGIA</button>
+        <button class="btn" id="btn-surrender">DESISTIR</button>
       </div>
     </section>
+
+    <section id="combat-log" aria-label="Log de combate" aria-live="polite"></section>
+
   </main>
-  <script type="module" src="/js/pages/combat.js"></script>
+
+  <div id="result-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <h2 id="modal-title"></h2>
+    <p id="modal-message"></p>
+    <button class="btn" id="btn-restart">JOGAR NOVAMENTE</button>
+  </div>
+
+  <script type="module" src="/js/app.js"></script>
 </body>
 
 </html>
