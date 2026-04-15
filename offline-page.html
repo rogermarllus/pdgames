@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Retro Dungeon</title>
+  <style>
+    html,
+    body {
+      background-color: black;
+      height: 100%;
+    }
+
+    main {
+      background-color: black;
+      font-family: "Determination", monospace;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 35px;
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+
+    .transition-screen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      gap: 24px;
+      font-family: "Determination", monospace;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      background-color: black;
+    }
+
+    #error-title {
+      font-size: 3em;
+      letter-spacing: 4px;
+      margin-bottom: 0px;
+    }
+
+    #error-info {
+      line-height: 1.9;
+    }
+
+    #error-detail {
+      font-size: 1.5em;
+    }
+
+    #btn-retry {
+      margin-top: 8px;
+      width: fit-content;
+      padding: 12px 40px;
+    }
+
+    .btn {
+      text-decoration: none;
+      text-align: center;
+      background-color: black;
+      color: white;
+      font-family: "Determination", monospace;
+      font-size: 24px;
+      padding: 10px 20px;
+      border: 3px solid white;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      opacity: 60%;
+    }
+
+    .btn:disabled {
+      opacity: 30%;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="transition-screen" id="error-screen">
+    <h2 id="error-title">ATENÇÃO</h2>
+    <div id="error-info">
+      <p id="error-detail">Erro: Sem conexão com a internet.
+        Verifique sua rede."</p>
+    </div>
+    <a href="/index.html" class="btn" id="btn-retry">TENTAR NOVAMENTE</a>
+  </div>
+</body>
+
+</html>
