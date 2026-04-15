@@ -12,21 +12,14 @@
 </head>
 
 <body>
-
-  <div class="transition-screen" id="loading-screen">
-    <p id="loading-text">Carregando</p>
-  </div>
-
   <div class="transition-screen" id="error-screen">
     <h2 id="error-title">ATENÇÃO</h2>
     <div id="error-info">
-      <p>Erro: <span id="error-code">—</span></p>
-      <p id="error-detail"></p>
+      <p>Erro: <span id="error-code">Sem conexão com a internet.
+          Verifique sua rede."</span></p>
     </div>
-    <button class="btn" id="btn-retry">TENTAR NOVAMENTE</button>
+    <a href="/index.html" class="btn" id="btn-retry">TENTAR NOVAMENTE</a>
   </div>
-
-  <script type="module" src="/js/pages/error-loading.js"></script>
 </body>
 
 </html>
