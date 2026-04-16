@@ -32,7 +32,6 @@
   background-color: white;
   width: 100%;
   height: 30px;
-  transition: opacity 0.3s ease;
 }
 
 #monster-hp-bar .hp-part {
