@@ -28,7 +28,7 @@ export function updateHpBar(barId, current, max) {
   const filled = Math.round(ratio * HP_SEGMENTS);
 
   bar.querySelectorAll(".hp-part").forEach((part, i) => {
-    part.style.opacity = i < filled ? "1" : "0.15";
+    part.style.opacity = i < filled ? "1" : "0";
   });
 }
 
@@ -94,12 +94,12 @@ export function showSpellDescription(spell) {
   el.textContent = desc;
 }
 
+export function setDisabled(id, disabled) {
+  const el = document.getElementById(id);
+  if (el) el.disabled = disabled;
+}
+
 function setText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value;
-}
-
-function setDisabled(id, disabled) {
-  const el = document.getElementById(id);
-  if (el) el.disabled = disabled;
 }
