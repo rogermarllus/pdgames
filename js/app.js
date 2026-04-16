@@ -2,7 +2,8 @@ import {
   getPlayer, getMonster,
   setMonster, setSpell,
   applyDamageToMonster, healPlayer,
-  isHealAvailable, endCombat,
+  isHealAvailable, isPlayerTurn,
+  startCombat, endCombat, nextTurn,
 } from "./game.js";
 
 import {
@@ -11,6 +12,8 @@ import {
 } from "./ui.js";
 
 import { rollDice } from "./utils/dice.js";
+
+const MONSTER_TURN_DELAY = 1200;
 
 function init() {
   const rawMonster = sessionStorage.getItem("selectedMonster");
@@ -31,6 +34,7 @@ function init() {
 
 function beginCombat() {
   clearLog();
+  startCombat();
   updateMonsterHud(getMonster());
   updatePlayerHud(getPlayer());
   refreshActionButtons();
@@ -38,13 +42,48 @@ function beginCombat() {
 }
 
 function refreshActionButtons() {
-  setDisabled("btn-heal", !isHealAvailable());
+  const playerTurn = isPlayerTurn();
+  setDisabled("btn-attack", !playerTurn);
+  setDisabled("btn-heal", !playerTurn || !isHealAvailable());
+  setDisabled("btn-spell", !playerTurn);
 }
 
 function disableAllActions() {
   setDisabled("btn-attack", true);
   setDisabled("btn-heal", true);
   setDisabled("btn-spell", true);
+}
+
+function checkCombatEnd() {
+  if (getMonster().hit_points <= 0) {
+    addLogEntry(`${getMonster().name} foi derrotado!`);
+    endCombat();
+    disableAllActions();
+    return true;
+  }
+  if (getPlayer().hit_points <= 0) {
+    addLogEntry("Aventureiro foi derrotado!");
+    endCombat();
+    disableAllActions();
+    return true;
+  }
+  return false;
+}
+
+function runMonsterTurn() {
+  addLogEntry(`${getMonster().name} realizou uma ação. (ainda será implementado)`);
+
+  if (!checkCombatEnd()) {
+    nextTurn();
+    refreshActionButtons();
+  }
+}
+
+function passTurnToMonster() {
+  nextTurn();
+  refreshActionButtons();
+
+  setTimeout(runMonsterTurn, MONSTER_TURN_DELAY);
 }
 
 /* Ataque do Jogador */
@@ -58,19 +97,15 @@ function onAttack() {
 
   if (!acerto) {
     addLogEntry("Jogador errou o ataque!");
-    return;
+  } else {
+    const dano = rollDice(player.damage_dice);
+    applyDamageToMonster(dano);
+    addLogEntry(`Jogador causou ${dano} de dano!`);
+    updateMonsterHud(getMonster());
   }
 
-  const dano = rollDice(player.damage_dice);
-  applyDamageToMonster(dano);
-
-  addLogEntry(`Jogador causou ${dano} de dano!`);
-  updateMonsterHud(getMonster());
-
-  if (getMonster().hit_points <= 0) {
-    addLogEntry(`${monster.name} foi derrotado!`);
-    endCombat();
-    disableAllActions();
+  if (!checkCombatEnd()) {
+    passTurnToMonster();
   }
 }
 
@@ -79,14 +114,13 @@ function onHeal() {
   if (!isHealAvailable()) return;
 
   const player = getPlayer();
-
   const cura = rollDice(player.heal_dice);
   healPlayer(cura);
 
   addLogEntry(`Jogador recuperou ${cura} de HP!`);
   updatePlayerHud(getPlayer());
 
-  refreshActionButtons();
+  passTurnToMonster();
 }
 
 document.getElementById("btn-attack")

@@ -60,3 +60,7 @@ export function healPlayer(amount) {
   );
   state.healUsed = true;
 }
+
+export function nextTurn() {
+  state.isPlayerTurn = !state.isPlayerTurn;
+}
