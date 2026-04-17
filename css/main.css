@@ -65,6 +65,10 @@ img#main-art {
   border: 3px solid white;
   width: 100%;
   cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn:hover {
@@ -93,6 +97,7 @@ img#main-art {
   width: fit-content;
   height: fit-content;
   padding: 10px;
+  flex-shrink: 0;
 }
 
 /* Menu */
@@ -111,7 +116,7 @@ img#main-art {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   gap: 15px;
   width: 100%;
 }
@@ -220,9 +225,10 @@ label {
   background-color: black;
   color: white;
   font-family: "Determination", monospace;
-  font-size: 24px;
+  font-size: 14px;
   padding: 10px 20px;
   width: 100%;
+  min-width: 0;
 
   appearance: none;
   -webkit-appearance: none;
@@ -285,21 +291,10 @@ label {
 }
 
 @keyframes ellipsis {
-  0% {
-    content: "";
-  }
-
-  25% {
-    content: ".";
-  }
-
-  50% {
-    content: "..";
-  }
-
-  75% {
-    content: "...";
-  }
+  0% { content: ""; }
+  25% { content: "."; }
+  50% { content: ".."; }
+  75% { content: "..."; }
 }
 
 #loading-text::after {
@@ -336,15 +331,8 @@ label {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .fade-in {
@@ -355,24 +343,46 @@ label {
 
 @media (min-width: 768px) {
   h1#main-title {
-    font-size: 6em;
+    font-size: 5em;
     display: flex;
     flex-direction: row;
     gap: 15px;
   }
 
   img#main-art {
-    width: 35%;
+    width: 45%;
+  }
+
+  .menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
   }
 
   .menu div {
-    flex-direction: row;
-    width: 100%;
+    display: contents;
   }
 
   .btn {
-    font-size: 36px;
-    padding: 20px;
+    font-size: 22px;
+    padding: 16px 20px;
+  }
+
+  .menu-combat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .menu-combat div {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .menu-combat .btn {
+    font-size: 20px;
+    padding: 14px 12px;
   }
 
   .hud {
@@ -387,11 +397,15 @@ label {
   #combat-log {
     width: 60%;
   }
+
+  .slct {
+    font-size: 22px;
+  }
 }
 
 @media (min-width: 1024px) {
   img#main-art {
-    width: 25%;
+    width: 32%;
   }
 
   .menu {
@@ -399,7 +413,7 @@ label {
   }
 
   .form-wrapper {
-    flex-direction: row;
+    flex-direction: column;
     gap: 40px;
   }
 
@@ -410,5 +424,17 @@ label {
 
   #combat-log {
     width: 50%;
+  }
+
+  .btn {
+    font-size: 24px;
+  }
+
+  .menu-combat .btn {
+    font-size: 22px;
+  }
+
+  .slct {
+    font-size: 24px;
   }
 }
