@@ -1,5 +1,6 @@
 #combat-log {
   width: 80%;
+  height: 140px;
   max-height: 180px;
   overflow-y: auto;
   border: 3px solid white;
@@ -29,4 +30,22 @@
   font-size: 0.8em;
   line-height: 1.5;
   opacity: 0.9;
+}
+
+@media (min-width: 768px) {
+  #combat-log {
+    width: 60%;
+  }
+}
+
+.log-green {
+  color: var(--green);
+}
+
+.log-red {
+  color: var(--red);
+}
+
+.log-grey {
+  color: grey;
 }
