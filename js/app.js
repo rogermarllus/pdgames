@@ -42,6 +42,12 @@ function beginCombat() {
   updateMonsterHud(getMonster());
   updatePlayerHud(getPlayer());
   refreshActionButtons();
+
+  if (sessionStorage.getItem("monsterWasRandom") === "true") {
+    sessionStorage.removeItem("monsterWasRandom");
+    addLogEntry(`Monstro aleatório <span class="log-red">${getMonster().name}</span> foi selecionado!`);
+  }
+
   addLogEntry(`Combate iniciado contra <span class="log-red">${getMonster().name}</span>!`);
 }
 
