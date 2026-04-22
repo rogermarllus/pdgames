@@ -56,13 +56,13 @@ function disableAllActions() {
 
 function checkCombatEnd() {
   if (getMonster().hit_points <= 0) {
-    addLogEntry(`${getMonster().name} foi derrotado!`);
+    addLogEntry(`Vitória! Você derrotou ${getMonster().name}!`);
     endCombat();
     disableAllActions();
     return true;
   }
   if (getPlayer().hit_points <= 0) {
-    addLogEntry("Aventureiro foi derrotado!");
+    addLogEntry("Fim de Jogo! Você foi derrotado!");
     endCombat();
     disableAllActions();
     return true;
