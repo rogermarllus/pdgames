@@ -1,7 +1,7 @@
 const PLAYER_TEMPLATE = Object.freeze({
   name: "Aventureiro",
   max_hp: 30,
-  hit_points: 20,
+  hit_points: 30,
   armor_class: 14,
   attack_bonus: 4,
   damage_dice: "1d8+2",
@@ -51,6 +51,10 @@ export function resetCombat() {
 
 export function applyDamageToMonster(amount) {
   state.monster.hit_points = Math.max(0, state.monster.hit_points - amount);
+}
+
+export function applyDamageToPlayer(amount) {
+  state.player.hit_points = Math.max(0, state.player.hit_points - amount);
 }
 
 export function healPlayer(amount) {
