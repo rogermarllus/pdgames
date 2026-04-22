@@ -1,5 +1,5 @@
 import {
-  getPlayer, getMonster,
+  getPlayer, getMonster, getState,
   setMonster, setSpell,
   applyDamageToMonster, applyDamageToPlayer, healPlayer,
   isHealAvailable, isPlayerTurn,
@@ -14,6 +14,9 @@ import {
 import { rollDice } from "./utils/dice.js";
 
 const MONSTER_TURN_DELAY = 700;
+const RESULT_REDIRECT_DELAY = 1500;
+
+let turnCount = 1;
 
 function init() {
   const rawMonster = sessionStorage.getItem("selectedMonster");
@@ -33,6 +36,7 @@ function init() {
 }
 
 function beginCombat() {
+  turnCount = 1;
   clearLog();
   startCombat();
   updateMonsterHud(getMonster());
@@ -54,17 +58,37 @@ function disableAllActions() {
   setDisabled("btn-spell", true);
 }
 
+function saveResultAndRedirect(outcome) {
+  const player = getPlayer();
+  const monster = getMonster();
+  const { healUsed } = getState();
+
+  sessionStorage.setItem("combatResult", JSON.stringify({
+    outcome,
+    monsterName: monster.name,
+    turnsPlayed: turnCount,
+    healUsed,
+    playerHp: player.hit_points,
+  }));
+
+  setTimeout(() => {
+    window.location.href = "/pages/combat-result.html";
+  }, RESULT_REDIRECT_DELAY);
+}
+
 function checkCombatEnd() {
   if (getMonster().hit_points <= 0) {
-    addLogEntry(`<span class ='log-green'>Vitória!</span> Você derrotou <span class="log-red">${getMonster().name}</span>!`);
+    addLogEntry(`<span class='log-green'>Vitória!</span> Você derrotou <span class="log-red">${getMonster().name}</span>!`);
     endCombat();
     disableAllActions();
+    saveResultAndRedirect("victory");
     return true;
   }
   if (getPlayer().hit_points <= 0) {
-    addLogEntry("<span class ='log-red'>Fim de Jogo!</span> Você foi derrotado!");
+    addLogEntry("<span class='log-red'>Fim de Jogo!</span> Você foi derrotado!");
     endCombat();
     disableAllActions();
+    saveResultAndRedirect("defeat");
     return true;
   }
   return false;
@@ -94,6 +118,7 @@ function runMonsterTurn() {
 }
 
 function passTurnToMonster() {
+  turnCount++;
   nextTurn();
   refreshActionButtons();
   setTimeout(runMonsterTurn, MONSTER_TURN_DELAY);
@@ -136,10 +161,21 @@ function onHeal() {
   passTurnToMonster();
 }
 
+/* Desistência do Jogador */
+function onSurrender() {
+  addLogEntry("<span class='log-green'>Jogador</span> desistiu do combate...");
+  endCombat();
+  disableAllActions();
+  saveResultAndRedirect("defeat");
+}
+
 document.getElementById("btn-attack")
   .addEventListener("click", onAttack);
 
 document.getElementById("btn-heal")
   .addEventListener("click", onHeal);
+
+document.getElementById("btn-surrender")
+  .addEventListener("click", onSurrender);
 
 init();
