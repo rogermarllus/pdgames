@@ -1,7 +1,7 @@
 import {
   getPlayer, getMonster,
   setMonster, setSpell,
-  applyDamageToMonster, healPlayer,
+  applyDamageToMonster, applyDamageToPlayer, healPlayer,
   isHealAvailable, isPlayerTurn,
   startCombat, endCombat, nextTurn,
 } from "./game.js";
@@ -13,7 +13,7 @@ import {
 
 import { rollDice } from "./utils/dice.js";
 
-const MONSTER_TURN_DELAY = 1200;
+const MONSTER_TURN_DELAY = 700;
 
 function init() {
   const rawMonster = sessionStorage.getItem("selectedMonster");
@@ -71,7 +71,21 @@ function checkCombatEnd() {
 }
 
 function runMonsterTurn() {
-  addLogEntry(`${getMonster().name} realizou uma ação. (ainda será implementado)`);
+  const player = getPlayer();
+  const monster = getMonster();
+
+  const roll = rollDice("1d20");
+  const total = roll + monster.attack_bonus;
+  const acerto = total >= player.armor_class;
+
+  if (!acerto) {
+    addLogEntry(`${monster.name} errou ${monster.action_name}!`);
+  } else {
+    const dano = rollDice(monster.damage_dice);
+    applyDamageToPlayer(dano);
+    addLogEntry(`${monster.name} usou ${monster.action_name} e causou ${dano} de dano!`);
+    updatePlayerHud(getPlayer());
+  }
 
   if (!checkCombatEnd()) {
     nextTurn();
@@ -82,7 +96,6 @@ function runMonsterTurn() {
 function passTurnToMonster() {
   nextTurn();
   refreshActionButtons();
-
   setTimeout(runMonsterTurn, MONSTER_TURN_DELAY);
 }
 
