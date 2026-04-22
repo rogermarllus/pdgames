@@ -72,6 +72,7 @@ function selectRandomMonster() {
 
   const randomIndex = Math.floor(Math.random() * options.length);
   select.selectedIndex = randomIndex;
+  sessionStorage.setItem("monsterWasRandom", "true");
 }
 
 async function selectRandomSpell() {
@@ -123,6 +124,9 @@ function handleApiError(error, selectId = null) {
 
 document.getElementById("random-monster")
   .addEventListener("click", selectRandomMonster);
+
+document.getElementById("monster-select")
+  .addEventListener("change", () => sessionStorage.removeItem("monsterWasRandom"));
 
 document.getElementById("random-spell")
   .addEventListener("click", selectRandomSpell);
