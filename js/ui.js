@@ -39,7 +39,7 @@ export function addLogEntry(message) {
   const time = new Date().toTimeString().slice(0, 8);
   const entry = document.createElement("p");
   entry.className = "log-entry";
-  entry.textContent = `[${time}] ${message}`;
+  entry.innerHTML = `<span class="log-grey">[${time}]</span> ${message}`;
 
   log.prepend(entry);
 }

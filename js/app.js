@@ -38,7 +38,7 @@ function beginCombat() {
   updateMonsterHud(getMonster());
   updatePlayerHud(getPlayer());
   refreshActionButtons();
-  addLogEntry(`Combate iniciado contra ${getMonster().name}!`);
+  addLogEntry(`Combate iniciado contra <span class="log-red">${getMonster().name}</span>!`);
 }
 
 function refreshActionButtons() {
@@ -56,13 +56,13 @@ function disableAllActions() {
 
 function checkCombatEnd() {
   if (getMonster().hit_points <= 0) {
-    addLogEntry(`Vitória! Você derrotou ${getMonster().name}!`);
+    addLogEntry(`<span class ='log-green'>Vitória!</span> Você derrotou <span class="log-red">${getMonster().name}</span>!`);
     endCombat();
     disableAllActions();
     return true;
   }
   if (getPlayer().hit_points <= 0) {
-    addLogEntry("Fim de Jogo! Você foi derrotado!");
+    addLogEntry("<span class ='log-red'>Fim de Jogo!</span> Você foi derrotado!");
     endCombat();
     disableAllActions();
     return true;
@@ -79,11 +79,11 @@ function runMonsterTurn() {
   const acerto = total >= player.armor_class;
 
   if (!acerto) {
-    addLogEntry(`${monster.name} errou ${monster.action_name}!`);
+    addLogEntry(`<span class="log-red">${getMonster().name}</span> errou ${monster.action_name}!`);
   } else {
     const dano = rollDice(monster.damage_dice);
     applyDamageToPlayer(dano);
-    addLogEntry(`${monster.name} usou ${monster.action_name} e causou ${dano} de dano!`);
+    addLogEntry(`<span class="log-red">${getMonster().name}</span> usou ${monster.action_name} e causou ${dano} de dano!`);
     updatePlayerHud(getPlayer());
   }
 
@@ -109,11 +109,11 @@ function onAttack() {
   const acerto = total >= monster.armor_class;
 
   if (!acerto) {
-    addLogEntry("Jogador errou o ataque!");
+    addLogEntry("<span class='log-green'>Jogador</span> errou o ataque!");
   } else {
     const dano = rollDice(player.damage_dice);
     applyDamageToMonster(dano);
-    addLogEntry(`Jogador causou ${dano} de dano!`);
+    addLogEntry(`<span class='log-green'>Jogador</span> causou ${dano} de dano!`);
     updateMonsterHud(getMonster());
   }
 
@@ -130,7 +130,7 @@ function onHeal() {
   const cura = rollDice(player.heal_dice);
   healPlayer(cura);
 
-  addLogEntry(`Jogador recuperou ${cura} de HP!`);
+  addLogEntry(`<span class='log-green'>Jogador</span> recuperou ${cura} de HP!`);
   updatePlayerHud(getPlayer());
 
   passTurnToMonster();

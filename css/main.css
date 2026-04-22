@@ -140,45 +140,14 @@ img#main-art {
   width: 60%;
 }
 
-/* Modal de resultado */
-
-#result-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.88);
+#menu-log-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  gap: 24px;
-  font-family: "Determination", monospace;
-  color: white;
-  text-align: center;
-  z-index: 100;
-  padding: 20px;
-}
-
-#modal-title {
-  font-size: 3.5em;
-  line-height: 1;
-}
-
-#modal-message {
-  font-size: 1.6em;
-}
-
-#result-modal .btn {
-  width: fit-content;
-  padding: 12px 40px;
-  font-size: 1.2em;
-}
-
-.modal--victory #modal-title {
-  color: var(--green);
-}
-
-.modal--defeat #modal-title {
-  color: var(--red);
+  gap: 15px;
 }
 
 /* TELA DE PREPARAÇÃO */
@@ -291,10 +260,21 @@ label {
 }
 
 @keyframes ellipsis {
-  0% { content: ""; }
-  25% { content: "."; }
-  50% { content: ".."; }
-  75% { content: "..."; }
+  0% {
+    content: "";
+  }
+
+  25% {
+    content: ".";
+  }
+
+  50% {
+    content: "..";
+  }
+
+  75% {
+    content: "...";
+  }
 }
 
 #loading-text::after {
@@ -331,8 +311,15 @@ label {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .fade-in {
@@ -394,12 +381,17 @@ label {
     gap: 30px;
   }
 
-  #combat-log {
-    width: 60%;
-  }
-
   .slct {
     font-size: 22px;
+  }
+
+  #menu-log-wrapper {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 }
 
@@ -422,10 +414,6 @@ label {
     gap: 30px;
   }
 
-  #combat-log {
-    width: 50%;
-  }
-
   .btn {
     font-size: 24px;
   }
@@ -436,5 +424,14 @@ label {
 
   .slct {
     font-size: 24px;
+  }
+
+  #menu-log-wrapper {
+    width: 55%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 }
