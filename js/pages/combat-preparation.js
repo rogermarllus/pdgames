@@ -12,6 +12,10 @@ function navigateTo(path) {
   window.location.href = path;
 }
 
+function showError(message) {
+  console.log(message);
+}
+
 async function init() {
   await Promise.all([loadMonsterList(), loadSpellList()]);
 }
@@ -28,7 +32,7 @@ async function loadMonsterList() {
     }
 
     populateMonsterSelect(list);
-    hideError();
+    //hideError();
   } catch (error) {
     handleApiError(error, "monster-select");
   }
@@ -46,7 +50,7 @@ async function loadSpellList() {
     }
 
     populateSpellSelect(list);
-    hideError();
+    //hideError();
 
     await loadSpellDescription(list[0].index);
   } catch (error) {
@@ -96,11 +100,16 @@ function onStartCombat() {
     return;
   }
 
+  if (!spellIndex) {
+    showError("Selecione uma magia antes de iniciar o combate.");
+    return;
+  }
+
   const params = new URLSearchParams({
     action: "to-combat",
     next: "/pages/combat.html",
     monster: monsterIndex,
-    ...(spellIndex ? { spell: spellIndex } : {}),
+    spell: spellIndex,
   });
 
   window.location.href = `/pages/error-loading.html?${params}`;

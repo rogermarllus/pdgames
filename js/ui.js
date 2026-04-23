@@ -87,16 +87,44 @@ export function showSpellDescription(spell) {
   const el = document.getElementById("spell-description");
   if (!el) return;
 
-  const desc = Array.isArray(spell.desc)
-    ? spell.desc.join(" ")
-    : (spell.desc ?? "Sem descrição disponível.");
+  const parts = [];
 
-  el.textContent = desc;
+  if (spell.name) parts.push(`<p>Nome: ${spell.name}</p>`);
+  if (spell.level !== undefined) parts.push(`<p>Nível: ${spell.level}</p>`);
+
+  parts.push(
+    `<p>Dano: ${spell.final_damage ?? "-"
+    } de ${spell.damage.damage_type?.name ?? "-"}</p>`
+  );
+
+  parts.push(`<p>Cooldown: 3 turnos</p>`);
+
+  el.innerHTML = parts.join("");
 }
 
 export function setDisabled(id, disabled) {
   const el = document.getElementById(id);
   if (el) el.disabled = disabled;
+}
+
+export function updateSpellCooldown(count) {
+  const wrapper = document.getElementById("spell-surrender-wrapper");
+  if (!wrapper) return;
+
+  let counter = wrapper.querySelector(".spell-cooldown-counter");
+
+  if (!counter) {
+    counter = document.createElement("span");
+    counter.className = "spell-cooldown-counter";
+    wrapper.appendChild(counter);
+  }
+
+  if (count > 0) {
+    counter.textContent = count;
+    counter.removeAttribute("hidden");
+  } else {
+    counter.setAttribute("hidden", "");
+  }
 }
 
 function setText(id, value) {

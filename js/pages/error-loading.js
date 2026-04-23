@@ -56,14 +56,18 @@ async function handleToCombat() {
     return;
   }
 
+  if (!spellIndex) {
+    showErrorState("—", "Nenhuma magia foi selecionada. Volte e tente novamente.");
+    return;
+  }
+
   try {
-    const requests = [fetchMonsterByIndex(monsterIndex)];
-    if (spellIndex) requests.push(fetchSpellByIndex(spellIndex));
+    const requests = [fetchMonsterByIndex(monsterIndex), fetchSpellByIndex(spellIndex)];
 
     const [monster, spell] = await Promise.all(requests);
 
     sessionStorage.setItem("selectedMonster", JSON.stringify(monster));
-    if (spell) sessionStorage.setItem("selectedSpell", JSON.stringify(spell));
+    sessionStorage.setItem("selectedSpell", JSON.stringify(spell));
 
     window.location.href = next;
   } catch (error) {
