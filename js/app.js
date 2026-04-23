@@ -4,6 +4,7 @@ import {
   applyDamageToMonster, applyDamageToPlayer, healPlayer,
   isHealAvailable, isPlayerTurn,
   startCombat, endCombat, nextTurn,
+  getSpell,
 } from "./game.js";
 
 import {
@@ -28,9 +29,7 @@ function init() {
   }
 
   setMonster(JSON.parse(rawMonster));
-  if (rawSpell) {
-    try { setSpell(JSON.parse(rawSpell)); } catch { }
-  }
+  setSpell(JSON.parse(rawSpell));
 
   beginCombat();
 }
@@ -153,6 +152,24 @@ function onAttack() {
   }
 }
 
+function onCast() {
+  const player = getPlayer();
+  const monster = getMonster();
+  const spell = getSpell();
+
+  const dano = rollDice(spell.final_damage);
+
+  applyDamageToMonster(dano);
+
+  addLogEntry(`<span class='log-green'>Jogador</span> conjurou ${spell.name} e causou ${dano} de dano de ${spell.damage.damage_type.name}!`);
+
+  updateMonsterHud(getMonster());
+
+  if (!checkCombatEnd()) {
+    passTurnToMonster();
+  }
+}
+
 /* Cura do Jogador */
 function onHeal() {
   if (!isHealAvailable()) return;
@@ -177,6 +194,9 @@ function onSurrender() {
 
 document.getElementById("btn-attack")
   .addEventListener("click", onAttack);
+
+document.getElementById("btn-spell")
+  .addEventListener("click", onCast);
 
 document.getElementById("btn-heal")
   .addEventListener("click", onHeal);

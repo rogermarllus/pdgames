@@ -87,11 +87,19 @@ export function showSpellDescription(spell) {
   const el = document.getElementById("spell-description");
   if (!el) return;
 
-  const desc = Array.isArray(spell.desc)
-    ? spell.desc.join(" ")
-    : (spell.desc ?? "Sem descrição disponível.");
+  const parts = [];
 
-  el.textContent = desc;
+  if (spell.name) parts.push(`<p>Nome: ${spell.name}</p>`);
+  if (spell.level !== undefined) parts.push(`<p>Nível: ${spell.level}</p>`);
+
+  parts.push(
+    `<p>Dano: ${spell.final_damage ?? "-"
+    } de ${spell.damage.damage_type?.name ?? "-"}</p>`
+  );
+
+  parts.push(`<p>Cooldown: 3 turnos</p>`);
+
+  el.innerHTML = parts.join("");
 }
 
 export function setDisabled(id, disabled) {

@@ -212,6 +212,7 @@ label {
 
 #spell-description {
   border: 3px solid white;
+  width: 100%;
   text-align: justify;
   padding: 10px 20px;
   font-family: "Determination", monospace;
