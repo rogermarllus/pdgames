@@ -5,11 +5,13 @@ import {
   isHealAvailable, isPlayerTurn,
   startCombat, endCombat, nextTurn,
   getSpell,
+  getSpellCooldown, setSpellCooldown, tickSpellCooldown, isSpellAvailable,
 } from "./game.js";
 
 import {
   updateMonsterHud, updatePlayerHud,
   addLogEntry, clearLog, setDisabled,
+  updateSpellCooldown,
 } from "./ui.js";
 
 import { rollDice } from "./utils/dice.js";
@@ -52,9 +54,11 @@ function beginCombat() {
 
 function refreshActionButtons() {
   const playerTurn = isPlayerTurn();
-  setDisabled("btn-attack", !playerTurn);
+  setDisabled("btn-attack", true);
   setDisabled("btn-heal", !playerTurn || !isHealAvailable());
-  setDisabled("btn-spell", !playerTurn);
+  setDisabled("btn-spell", !playerTurn || !isSpellAvailable());
+  setDisabled("btn-attack", !playerTurn);
+  updateSpellCooldown(getSpellCooldown());
 }
 
 function disableAllActions() {
@@ -147,19 +151,22 @@ function onAttack() {
     updateMonsterHud(getMonster());
   }
 
+  tickSpellCooldown();
+
   if (!checkCombatEnd()) {
     passTurnToMonster();
   }
 }
 
+/* Conjuração do Jogador */
 function onCast() {
-  const player = getPlayer();
-  const monster = getMonster();
   const spell = getSpell();
 
   const dano = rollDice(spell.final_damage);
 
   applyDamageToMonster(dano);
+
+  setSpellCooldown(3);
 
   addLogEntry(`<span class='log-green'>Jogador</span> conjurou ${spell.name} e causou ${dano} de dano de ${spell.damage.damage_type.name}!`);
 
@@ -181,6 +188,7 @@ function onHeal() {
   addLogEntry(`<span class='log-green'>Jogador</span> recuperou ${cura} de HP!`);
   updatePlayerHud(getPlayer());
 
+  tickSpellCooldown();
   passTurnToMonster();
 }
 

@@ -107,6 +107,26 @@ export function setDisabled(id, disabled) {
   if (el) el.disabled = disabled;
 }
 
+export function updateSpellCooldown(count) {
+  const wrapper = document.getElementById("spell-surrender-wrapper");
+  if (!wrapper) return;
+
+  let counter = wrapper.querySelector(".spell-cooldown-counter");
+
+  if (!counter) {
+    counter = document.createElement("span");
+    counter.className = "spell-cooldown-counter";
+    wrapper.appendChild(counter);
+  }
+
+  if (count > 0) {
+    counter.textContent = count;
+    counter.removeAttribute("hidden");
+  } else {
+    counter.setAttribute("hidden", "");
+  }
+}
+
 function setText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value;
