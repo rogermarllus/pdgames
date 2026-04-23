@@ -60,8 +60,33 @@ export function resetCombat() {
   state = buildInitialState();
 }
 
-export function applyDamageToMonster(amount) {
-  state.monster.hit_points = Math.max(0, state.monster.hit_points - amount);
+export function applyDamageToMonster(amount, damage_type = "slashing") {
+  const monster = state.monster;
+
+  const isImmune = monster.damage_immunities?.includes(damage_type);
+  const isResistant = monster.damage_resistances?.includes(damage_type);
+  const isVulnerable = monster.damage_vulnerabilities?.includes(damage_type);
+
+  let finalDamage = amount;
+  let resultType = 0;
+
+  if (isImmune) {
+    finalDamage = 0;
+    resultType = 1;
+  } else if (isResistant) {
+    finalDamage = Math.floor(amount / 2);
+    resultType = 2;
+  } else if (isVulnerable) {
+    finalDamage = amount * 2;
+    resultType = 3;
+  }
+
+  monster.hit_points = Math.max(0, monster.hit_points - finalDamage);
+
+  return {
+    resultType,
+    finalDamage
+  };
 }
 
 export function applyDamageToPlayer(amount) {

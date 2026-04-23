@@ -164,11 +164,26 @@ function onCast() {
 
   const dano = rollDice(spell.final_damage);
 
-  applyDamageToMonster(dano);
+  const { resultType, finalDamage } = applyDamageToMonster(
+    dano,
+    spell.damage.damage_type.index
+  );
 
   setSpellCooldown(3);
 
-  addLogEntry(`<span class='log-green'>Jogador</span> conjurou ${spell.name} e causou ${dano} de dano de ${spell.damage.damage_type.name}!`);
+  let extraLog = "";
+
+  if (resultType === 1) {
+    extraLog = "O monstro é imune a este tipo de dano!";
+  } else if (resultType === 2) {
+    extraLog = "O monstro resistiu ao dano!";
+  } else if (resultType === 3) {
+    extraLog = "O monstro é vulnerável a este tipo de dano!";
+  }
+
+  const baseLog = `<span class='log-green'>Jogador</span> conjurou ${spell.name} e causou ${finalDamage} de dano de ${spell.damage.damage_type.name}!`;
+
+  addLogEntry(extraLog ? `${baseLog} ${extraLog}` : baseLog);
 
   updateMonsterHud(getMonster());
 
