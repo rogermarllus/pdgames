@@ -18,6 +18,7 @@ function buildInitialState() {
     isPlayerTurn: true,
     combatActive: false,
     healUsed: false,
+    spellCooldown: 0,
   };
 }
 
@@ -31,6 +32,16 @@ export function isCombatActive() { return state.combatActive; }
 
 export function isHealAvailable() {
   return !state.healUsed && state.player.hit_points < state.player.max_hp;
+}
+
+export function getSpellCooldown() { return state.spellCooldown; }
+
+export function isSpellAvailable() { return state.spellCooldown === 0; }
+
+export function setSpellCooldown(value) { state.spellCooldown = value; }
+
+export function tickSpellCooldown() {
+  if (state.spellCooldown > 0) state.spellCooldown--;
 }
 
 export function setMonster(monster) { state.monster = monster; }

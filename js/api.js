@@ -67,13 +67,44 @@ export async function fetchMonsterByIndex(index) {
   return normalizeMonster(raw);
 }
 
+const availableSpells = new Set([
+  "acid-splash",
+  "burning-hands",
+  "chill-touch",
+  "eldritch-blast",
+  "fire-bolt",
+  "guiding-bolt",
+  "magic-missile",
+  "ray-of-frost",
+  "shocking-grasp",
+  "thunderwave",
+]);
+
 export async function fetchSpellList() {
   const data = await fetchWithTimeout(`${BASE_URL}/spells`);
-  return data.results;
+
+  return data.results.filter(spell => {
+    return availableSpells.has(spell.index);
+  });
 }
 
 export async function fetchSpellByIndex(index) {
-  return await fetchWithTimeout(`${BASE_URL}/spells/${index}`);
+  const spell = await fetchWithTimeout(`${BASE_URL}/spells/${index}`);
+
+  let finalDamage = null;
+
+  if (spell.damage) {
+    if (spell.level === 0) {
+      finalDamage = spell.damage.damage_at_character_level?.[1] ?? null;
+    } else if (spell.level === 1) {
+      finalDamage = spell.damage.damage_at_slot_level?.[1] ?? null;
+    }
+  }
+
+  return {
+    ...spell,
+    final_damage: finalDamage,
+  };
 }
 
 export function parseApiError(error) {
