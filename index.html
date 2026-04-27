@@ -23,9 +23,9 @@
         <a href="/pages/error-loading.html" class="btn" id="btn-new-game">
           NOVO JOGO
         </a>
-        <a href="#" class="btn" id="btn-load-game">
+        <button class="btn" id="btn-load-game">
           CARREGAR JOGO
-        </a>
+        </button>
       </div>
       <div>
         <a href="/pages/achievements.html" class="btn" id="btn-achievements">
@@ -37,6 +37,7 @@
       </div>
     </section>
   </main>
+  <script type="module" src="/js/pages/index.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("/sw.js")

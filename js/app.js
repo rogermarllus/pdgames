@@ -6,6 +6,7 @@ import {
   startCombat, endCombat, nextTurn,
   getSpell,
   getSpellCooldown, setSpellCooldown, tickSpellCooldown, isSpellAvailable,
+  loadState, restoreState, clearSavedState,
 } from "./game.js";
 
 import {
@@ -22,6 +23,22 @@ const RESULT_REDIRECT_DELAY = 1500;
 let turnCount = 1;
 
 function init() {
+  const resuming = sessionStorage.getItem("resuming") === "true";
+
+  if (resuming) {
+    sessionStorage.removeItem("resuming");
+
+    const saved = loadState();
+    if (!saved) {
+      window.location.href = "/pages/combat-preparation.html";
+      return;
+    }
+
+    restoreState(saved);
+    resumeCombat();
+    return;
+  }
+
   const rawMonster = sessionStorage.getItem("selectedMonster");
   const rawSpell = sessionStorage.getItem("selectedSpell");
 
@@ -52,12 +69,25 @@ function beginCombat() {
   addLogEntry(`Combate iniciado contra <span class="log-red">${getMonster().name}</span>!`);
 }
 
+function resumeCombat() {
+  turnCount = 1;
+  clearLog();
+  updateMonsterHud(getMonster());
+  updatePlayerHud(getPlayer());
+  refreshActionButtons();
+
+  addLogEntry(`Jogo carregado! Combate retomado contra <span class="log-red">${getMonster().name}</span>.`);
+
+  if (!isPlayerTurn()) {
+    setTimeout(runMonsterTurn, MONSTER_TURN_DELAY);
+  }
+}
+
 function refreshActionButtons() {
   const playerTurn = isPlayerTurn();
-  setDisabled("btn-attack", true);
+  setDisabled("btn-attack", !playerTurn);
   setDisabled("btn-heal", !playerTurn || !isHealAvailable());
   setDisabled("btn-spell", !playerTurn || !isSpellAvailable());
-  setDisabled("btn-attack", !playerTurn);
   updateSpellCooldown(getSpellCooldown());
 }
 
@@ -71,6 +101,8 @@ function saveResultAndRedirect(outcome) {
   const player = getPlayer();
   const monster = getMonster();
   const { healUsed } = getState();
+
+  clearSavedState();
 
   sessionStorage.setItem("combatResult", JSON.stringify({
     outcome,
@@ -172,17 +204,11 @@ function onCast() {
   setSpellCooldown(3);
 
   let extraLog = "";
-
-  if (resultType === 1) {
-    extraLog = "O monstro é imune a este tipo de dano!";
-  } else if (resultType === 2) {
-    extraLog = "O monstro resistiu ao dano!";
-  } else if (resultType === 3) {
-    extraLog = "O monstro é vulnerável a este tipo de dano!";
-  }
+  if (resultType === 1) extraLog = "O monstro é imune a este tipo de dano!";
+  else if (resultType === 2) extraLog = "O monstro resistiu ao dano!";
+  else if (resultType === 3) extraLog = "O monstro é vulnerável a este tipo de dano!";
 
   const baseLog = `<span class='log-green'>Jogador</span> conjurou ${spell.name} e causou ${finalDamage} de dano de ${spell.damage.damage_type.name}!`;
-
   addLogEntry(extraLog ? `${baseLog} ${extraLog}` : baseLog);
 
   updateMonsterHud(getMonster());
