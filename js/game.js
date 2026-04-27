@@ -8,6 +8,8 @@ const PLAYER_TEMPLATE = Object.freeze({
   heal_dice: "1d6+2",
 });
 
+const SAVE_KEY = "STATE";
+
 let state = buildInitialState();
 
 function buildInitialState() {
@@ -20,6 +22,32 @@ function buildInitialState() {
     healUsed: false,
     spellCooldown: 0,
   };
+}
+
+export function saveState() {
+  localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+}
+
+export function loadState() {
+  const raw = localStorage.getItem(SAVE_KEY);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+export function restoreState(savedState) {
+  state = { ...savedState };
+}
+
+export function hasSavedState() {
+  return !!localStorage.getItem(SAVE_KEY);
+}
+
+export function clearSavedState() {
+  localStorage.removeItem(SAVE_KEY);
 }
 
 export function getState() { return { ...state }; }
@@ -35,9 +63,7 @@ export function isHealAvailable() {
 }
 
 export function getSpellCooldown() { return state.spellCooldown; }
-
 export function isSpellAvailable() { return state.spellCooldown === 0; }
-
 export function setSpellCooldown(value) { state.spellCooldown = value; }
 
 export function tickSpellCooldown() {
@@ -83,10 +109,7 @@ export function applyDamageToMonster(amount, damage_type = "slashing") {
 
   monster.hit_points = Math.max(0, monster.hit_points - finalDamage);
 
-  return {
-    resultType,
-    finalDamage
-  };
+  return { resultType, finalDamage };
 }
 
 export function applyDamageToPlayer(amount) {
@@ -103,4 +126,5 @@ export function healPlayer(amount) {
 
 export function nextTurn() {
   state.isPlayerTurn = !state.isPlayerTurn;
+  saveState();
 }
