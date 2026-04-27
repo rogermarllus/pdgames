@@ -49,3 +49,7 @@
 .log-grey {
   color: grey;
 }
+
+.log-yellow {
+  color: rgb(255, 211, 65);
+}
