@@ -1,10 +1,15 @@
+#monster-hp, #player-hp {
+  font-size: 0.7em;
+  margin: 0px;
+}
+
 .hud {
-  width: 80%;
+  width: 70%;
 }
 
 .hud h3 {
+  font-size: 1em;
   letter-spacing: 2px;
-  margin-bottom: 6px;
 }
 
 .hud-wrapper {
@@ -31,7 +36,7 @@
 .hp-part {
   background-color: white;
   width: 100%;
-  height: 30px;
+  height: 15px;
 }
 
 #monster-hp-bar .hp-part {
@@ -59,5 +64,16 @@
 }
 
 .menu-combat button {
-  font-size: 20px;
+  font-size: 18px;
+}
+
+@media (min-width: 768px) {
+  .hud {
+    width: 50%;
+  }
+
+  .hud h3 {
+    font-size: 0.8em;
+    letter-spacing: 2px;
+  }
 }

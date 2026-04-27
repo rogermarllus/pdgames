@@ -38,7 +38,7 @@ main {
 
 h1#main-title {
   text-align: center;
-  font-size: 4em;
+  font-size: 3em;
   line-height: 80%;
 }
 
@@ -49,7 +49,7 @@ h2 {
 }
 
 #main-art {
-  width: 80%;
+  width: 65%;
 }
 
 /* Botões */
@@ -60,7 +60,7 @@ h2 {
   background-color: black;
   color: white;
   font-family: "Determination", monospace;
-  font-size: 24px;
+  font-size: 18px;
   padding: 10px 20px;
   border: 3px solid white;
   width: 100%;
@@ -137,7 +137,7 @@ h2 {
 }
 
 #monster-art {
-  width: 60%;
+  width: 45%;
 }
 
 #menu-log-wrapper {
@@ -367,8 +367,7 @@ label {
   justify-content: center;
   align-items: center;
   gap: 40px;
-  min-height: 100vh;
-  padding: 40px 20px;
+  padding: 80px 20px;
 }
 
 .result-header {
@@ -474,7 +473,7 @@ label {
   }
 
   .preparation-form {
-    width: 50%;
+    width: 70%;
     gap: 30px;
   }
 
@@ -497,8 +496,12 @@ label {
 }
 
 @media (min-width: 1024px) {
+  #monster-art {
+    width: 30%;
+  }
+
   img#main-art {
-    width: 25%;
+    width: 20%;
   }
 
   .menu {
@@ -516,11 +519,11 @@ label {
   }
 
   .btn {
-    font-size: 24px;
+    font-size: 18px;
   }
 
   .menu-combat .btn {
-    font-size: 22px;
+    font-size: 18px;
   }
 
   .slct {
