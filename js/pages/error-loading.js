@@ -62,9 +62,10 @@ async function handleToCombat() {
   }
 
   try {
-    const requests = [fetchMonsterByIndex(monsterIndex), fetchSpellByIndex(spellIndex)];
-
-    const [monster, spell] = await Promise.all(requests);
+    const [monster, spell] = await Promise.all([
+      fetchMonsterByIndex(monsterIndex),
+      fetchSpellByIndex(spellIndex),
+    ]);
 
     sessionStorage.setItem("selectedMonster", JSON.stringify(monster));
     sessionStorage.setItem("selectedSpell", JSON.stringify(spell));
@@ -76,6 +77,29 @@ async function handleToCombat() {
   }
 }
 
+async function handleToResume() {
+  const raw = localStorage.getItem("STATE");
+
+  if (!raw) {
+    showErrorState("—", "Nenhum jogo salvo encontrado.");
+    return;
+  }
+
+  try {
+    const saved = JSON.parse(raw);
+
+    if (!saved.monster || !saved.spell) {
+      showErrorState("—", "O arquivo de jogo salvo está incompleto.");
+      return;
+    }
+
+    sessionStorage.setItem("resuming", "true");
+    window.location.href = next;
+  } catch {
+    showErrorState("—", "O arquivo de jogo salvo está corrompido.");
+  }
+}
+
 btnRetry?.addEventListener("click", () => {
   showLoading();
   run();
@@ -84,6 +108,8 @@ btnRetry?.addEventListener("click", () => {
 function run() {
   if (action === "to-combat") {
     handleToCombat();
+  } else if (action === "to-resume") {
+    handleToResume();
   } else {
     handleToPreparation();
   }
