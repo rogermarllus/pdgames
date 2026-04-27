@@ -144,11 +144,11 @@ function runMonsterTurn() {
   const acerto = total >= player.armor_class;
 
   if (!acerto) {
-    addLogEntry(`<span class="log-red">${getMonster().name}</span> errou ${monster.action_name}!`);
+    addLogEntry(`<span class="log-red">${getMonster().name}</span> rolou <span class="log-yellow">${total}</span> e errou ${monster.action_name}!`);
   } else {
     const dano = rollDice(monster.damage_dice);
     applyDamageToPlayer(dano);
-    addLogEntry(`<span class="log-red">${getMonster().name}</span> usou ${monster.action_name} e causou ${dano} de dano!`);
+    addLogEntry(`<span class="log-red">${getMonster().name}</span> usou ${monster.action_name}, rolou <span class="log-yellow">${total}</span> e causou <span class="log-yellow">${dano}</span> de dano!`);
     updatePlayerHud(getPlayer());
   }
 
@@ -175,11 +175,11 @@ function onAttack() {
   const acerto = total >= monster.armor_class;
 
   if (!acerto) {
-    addLogEntry("<span class='log-green'>Jogador</span> errou o ataque!");
+    addLogEntry(`<span class='log-green'>Jogador</span> rolou <span class="log-yellow">${total}</span> e errou o ataque!`);
   } else {
     const dano = rollDice(player.damage_dice);
     applyDamageToMonster(dano);
-    addLogEntry(`<span class='log-green'>Jogador</span> causou ${dano} de dano!`);
+    addLogEntry(`<span class='log-green'>Jogador</span> rolou <span class="log-yellow">${total}</span> e causou <span class="log-yellow">${dano}</span> de dano!`);
     updateMonsterHud(getMonster());
   }
 
@@ -208,7 +208,7 @@ function onCast() {
   else if (resultType === 2) extraLog = "O monstro resistiu ao dano!";
   else if (resultType === 3) extraLog = "O monstro é vulnerável a este tipo de dano!";
 
-  const baseLog = `<span class='log-green'>Jogador</span> conjurou ${spell.name} e causou ${finalDamage} de dano de ${spell.damage.damage_type.name}!`;
+  const baseLog = `<span class='log-green'>Jogador</span> conjurou ${spell.name} e causou <span class="log-yellow">${finalDamage}</span> de dano de ${spell.damage.damage_type.name}!`;
   addLogEntry(extraLog ? `${baseLog} ${extraLog}` : baseLog);
 
   updateMonsterHud(getMonster());
