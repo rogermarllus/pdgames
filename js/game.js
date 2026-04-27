@@ -2,10 +2,10 @@ const PLAYER_TEMPLATE = Object.freeze({
   name: "Aventureiro",
   max_hp: 30,
   hit_points: 30,
-  armor_class: 14,
-  attack_bonus: 4,
+  armor_class: 15,
+  attack_bonus: 5,
   damage_dice: "1d8+2",
-  heal_dice: "1d6+2",
+  heal_dice: "1d8+2",
 });
 
 const SAVE_KEY = "STATE";
@@ -70,7 +70,15 @@ export function tickSpellCooldown() {
   if (state.spellCooldown > 0) state.spellCooldown--;
 }
 
-export function setMonster(monster) { state.monster = monster; }
+export function setMonster(monster) {
+  state.monster = monster;
+
+  const calculatedMaxHp = Math.max(30, Math.floor(monster.hit_points * 0.6));
+
+  state.player.max_hp = calculatedMaxHp;
+  state.player.hit_points = calculatedMaxHp;
+}
+
 export function setSpell(spell) { state.spell = spell; }
 
 export function startCombat() {
