@@ -23,22 +23,22 @@ const RESULT_REDIRECT_DELAY = 1500;
 let turnCount = 1;
 
 function init() {
+  // Carregar Jogo
   const resuming = sessionStorage.getItem("resuming") === "true";
-
   if (resuming) {
     sessionStorage.removeItem("resuming");
+    return tryRestore();
+  }
 
-    const saved = loadState();
-    if (!saved) {
-      window.location.href = "/pages/combat-preparation.html";
-      return;
-    }
-
+  // Reload
+  const saved = loadState();
+  if (saved?.combatActive) {
     restoreState(saved);
     resumeCombat();
     return;
   }
 
+  // Novo Combate
   const rawMonster = sessionStorage.getItem("selectedMonster");
   const rawSpell = sessionStorage.getItem("selectedSpell");
 
@@ -49,8 +49,17 @@ function init() {
 
   setMonster(JSON.parse(rawMonster));
   setSpell(JSON.parse(rawSpell));
-
   beginCombat();
+}
+
+function tryRestore() {
+  const saved = loadState();
+  if (!saved) {
+    window.location.href = "/pages/combat-preparation.html";
+    return;
+  }
+  restoreState(saved);
+  resumeCombat();
 }
 
 function beginCombat() {
