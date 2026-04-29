@@ -62,8 +62,6 @@ async function handleToCombat() {
   }
 
   try {
-    localStorage.removeItem("STATE");
-
     const [monster, spell] = await Promise.all([
       fetchMonsterByIndex(monsterIndex),
       fetchSpellByIndex(spellIndex),

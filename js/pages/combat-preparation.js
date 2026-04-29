@@ -105,6 +105,8 @@ function onStartCombat() {
     return;
   }
 
+  localStorage.removeItem("STATE");
+
   const params = new URLSearchParams({
     action: "to-combat",
     next: "/pages/combat.html",
