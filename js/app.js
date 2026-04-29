@@ -17,6 +17,8 @@ import {
 
 import { rollDice } from "./utils/dice.js";
 
+import { hitFlash } from "./utils/animations.js";
+
 const MONSTER_TURN_DELAY = 700;
 const RESULT_REDIRECT_DELAY = 1500;
 
@@ -188,6 +190,7 @@ function onAttack() {
   } else {
     const dano = rollDice(player.damage_dice);
     applyDamageToMonster(dano);
+    hitFlash("attack");
     addLogEntry(`<span class='log-green'>Jogador</span> rolou <span class="log-yellow">${total}</span> e causou <span class="log-yellow">${dano}</span> de dano!`);
     updateMonsterHud(getMonster());
   }
@@ -209,6 +212,8 @@ function onCast() {
     dano,
     spell.damage.damage_type.index
   );
+
+  hitFlash("spell");
 
   setSpellCooldown(3);
 
