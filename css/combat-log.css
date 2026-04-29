@@ -1,13 +1,13 @@
 #combat-log {
   width: 80%;
-  height: 140px;
-  max-height: 180px;
+  height: clamp(120px, 14vh, 180px);
+  max-height: clamp(140px, 18vh, 180px);
   overflow-y: auto;
   border: 3px solid white;
-  padding: 10px 15px;
+  padding: 1vh 1.5vw;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0.4vh;
   font-family: "Determination", monospace;
   color: white;
   scrollbar-width: thin;
