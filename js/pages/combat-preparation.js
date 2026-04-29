@@ -8,6 +8,8 @@ import {
   showSpellDescription,
 } from "../ui.js";
 
+import { musics } from "../utils/audio.js";
+
 function navigateTo(path) {
   window.location.href = path;
 }
@@ -18,6 +20,7 @@ function showError(message) {
 
 async function init() {
   await Promise.all([loadMonsterList(), loadSpellList()]);
+  musics.preparation.play();
 }
 
 async function loadMonsterList() {

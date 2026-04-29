@@ -19,6 +19,8 @@ import { rollDice } from "./utils/dice.js";
 
 import { hitFlash } from "./utils/animations.js";
 
+import { musics } from "./utils/audio.js";
+
 const MONSTER_TURN_DELAY = 700;
 const RESULT_REDIRECT_DELAY = 1500;
 
@@ -65,6 +67,7 @@ function tryRestore() {
 }
 
 function beginCombat() {
+  musics.combat.play();
   turnCount = 1;
   clearLog();
   startCombat();
