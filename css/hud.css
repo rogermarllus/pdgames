@@ -1,15 +1,21 @@
-#monster-hp, #player-hp {
+#monster-hp,
+#player-hp {
   font-size: 0.7em;
   margin: 0px;
 }
 
 .hud {
   width: 70%;
+  flex-shrink: 0;
+  min-width: 0;
 }
 
 .hud h3 {
-  font-size: 1em;
-  letter-spacing: 2px;
+  font-size: clamp(0.65em, 1.2vw, 1em);
+  letter-spacing: 0.2vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .hud-wrapper {
@@ -17,7 +23,8 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 1vw;
+  width: 100%;
 }
 
 /* Barra de HP */
@@ -25,18 +32,22 @@
 .hp-bar {
   width: 100%;
   border: 3px solid white;
-  padding: 5px;
+  padding: clamp(3px, 0.5vh, 5px);
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  gap: clamp(2px, 0.4vw, 5px);
+  min-width: 0;
+  overflow: hidden;
 }
 
 .hp-part {
   background-color: white;
   width: 100%;
-  height: 15px;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 #monster-hp-bar .hp-part {
@@ -54,9 +65,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 }
 
-/* Botões de combate  */
+/* Botões de combate */
 
 .menu-combat div {
   flex-direction: row;
@@ -64,16 +76,22 @@
 }
 
 .menu-combat button {
-  font-size: 18px;
+  font-size: clamp(13px, 1.8vw, 18px);
 }
 
 @media (min-width: 768px) {
-  .hud {
-    width: 50%;
-  }
-
   .hud h3 {
-    font-size: 0.8em;
-    letter-spacing: 2px;
+    font-size: clamp(0.6em, 1vw, 0.8em);
+    letter-spacing: 0.2vw;
+  }
+  
+  .hud {
+    width: 45%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hud {
+    width: 20%;
   }
 }
