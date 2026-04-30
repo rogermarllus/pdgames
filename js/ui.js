@@ -131,3 +131,15 @@ function setText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value;
 }
+
+export function updateMuteIcon(isMuted) {
+  const btn = document.getElementById("btn-mute");
+  if (!btn) return;
+
+  const img = btn.querySelector("img");
+  if (!img) return;
+
+  img.src = isMuted
+    ? "/assets/images/icons/sound-muted.png"
+    : "/assets/images/icons/sound.png";
+}

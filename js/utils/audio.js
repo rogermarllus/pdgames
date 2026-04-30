@@ -1,3 +1,10 @@
+import { updateMuteIcon } from "../ui.js";
+
+function init() {
+  Howler.mute(true);
+  localStorage.setItem("muted", true);
+}
+
 /* MÚSICAS */
 
 export const musics = {
@@ -19,3 +26,19 @@ export const musics = {
     loop: true
   }),
 };
+
+export function toggleMute() {
+  const muted = isMuted();
+  Howler.mute(!muted);
+  localStorage.setItem("muted", !muted);
+  updateMuteIcon(!muted);
+}
+
+export function isMuted() {
+  return localStorage.getItem("muted") === "true";
+}
+
+document.getElementById("btn-mute")
+  .addEventListener("click", toggleMute);
+
+init();
