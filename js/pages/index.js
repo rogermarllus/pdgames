@@ -1,5 +1,7 @@
 import { setDisabled } from "../ui.js";
 
+import { musics } from "../utils/audio.js";
+
 const hasSaved = !!localStorage.getItem("STATE");
 
 setDisabled("btn-load-game", !hasSaved);
@@ -16,3 +18,5 @@ btnLoadGame.addEventListener("click", (e) => {
 
     window.location.href = `/pages/error-loading.html?${params}`;
 });
+
+musics.mainMenu.play();
