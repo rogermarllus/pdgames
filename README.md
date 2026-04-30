@@ -1,93 +1,203 @@
-# PDGames
+# 💀 RetroDungeon
 
+> Um mini-game de combate tático baseado em D&D 5e, desenvolvido como atividade de estágio na PD Case com estética retrô e mecânicas fiéis ao sistema original.
 
+**Desenvolvedor:** Roger Marllus Oliveira Leal  
+**Organização:** PD Case  
+**Deploy:** [retro-dungeon.vercel.app](http://retro-dungeon.vercel.app)
 
-## Getting started
+---
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Sobre o Projeto
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+**RetroDungeon** é um mini-game de combate por turnos inspirado no sistema D&D 5e (2014), desenvolvido como atividade de estágio na PD Case. O jogador escolhe um monstro para enfrentar e uma magia para utilizar, então batalha em turnos alternados usando ataques físicos, magias com cooldown e uma cura de emergência — tudo consumindo dados reais do sistema D&D por meio de uma API pública.
 
-## Add your files
+O projeto tem foco em arquitetura modular com Vanilla JS puro, sem frameworks, utilizando módulos ES nativos, gerenciamento de estado persistente, suporte offline via Service Worker e integração com bibliotecas de áudio e animação.
 
-* [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+---
+
+## Acesso
+
+O jogo está hospedado no Vercel e pode ser acessado diretamente pelo navegador.
+
+🔗 **[retro-dungeon.vercel.app](http://retro-dungeon.vercel.app)**
+
+---
+
+## Estrutura de Pastas
 
 ```
-cd existing_repo
-git remote add origin https://git.pdcase.com/pdcase-projetos-internos/jovens-talentos/html/pdgames.git
-git branch -M main
-git push -uf origin main
+pdgames/
+├── assets/
+│   ├── audio/
+│   │   ├── music/            # Trilhas sonoras (menu, preparação, combate, vitória, derrota)
+│   │   └── sfx/              # Efeitos sonoros (hit, miss, spell, heal, random)
+│   ├── fonts/                # Fontes locais
+│   └── images/
+│       ├── icons/            # Ícones de interface
+│       ├── monsters/         # Arte dos monstros (.png)
+│       └── main-art.png      # Arte principal da tela inicial
+├── css/
+│   ├── main.css              # Estilos globais e variáveis
+│   ├── hud.css               # HUD de combate (barras de HP, status)
+│   └── combat-log.css        # Log de ações do combate
+├── js/
+│   ├── pages/
+│   │   ├── combat-preparation.js  # Seleção de monstro e magia
+│   │   ├── combat-result.js       # Tela de resultado final
+│   │   ├── error-loading.js       # Loading e tratamento de erros de API
+│   │   └── index.js               # Tela inicial
+│   ├── utils/
+│   │   ├── animations.js     # Animações de impacto via anime.js
+│   │   ├── audio.js          # Gerenciamento de músicas e SFX via Howler.js
+│   │   ├── dice.js           # Parser e executor de notação de dados (ex: 2d6+3)
+│   │   └── monsters.js       # Normalização dos dados brutos de monstros
+│   ├── api.js                # Integração com a D&D 5e API 2014
+│   ├── app.js                # Lógica principal do combate (loop de turnos)
+│   ├── game.js               # Estado global do jogo
+│   └── ui.js                 # Manipulação do DOM (HUDs, log, selects)
+├── libs/
+│   ├── anime.esm.min.js      # anime.js (local)
+│   └── howler.min.js         # Howler.js (local)
+├── pages/
+│   ├── achievements.html     # Tela de conquistas
+│   ├── combat-preparation.html
+│   ├── combat-result.html
+│   ├── combat.html
+│   ├── credits.html          # Tela de créditos
+│   ├── error-loading.html
+│   └── offline-page.html     # Página exibida sem conexão
+├── index.html                # Ponto de entrada da aplicação
+├── sw.js                     # Service Worker (suporte offline)
+└── README.md
 ```
 
-## Integrate with your tools
+---
 
-* [Set up project integrations](https://git.pdcase.com/pdcase-projetos-internos/jovens-talentos/html/pdgames/-/settings/integrations)
+## Funcionalidades
 
-## Collaborate with your team
+### Tela Inicial
+- Verifica se há um jogo salvo no `localStorage`
+- Habilita o botão **Carregar Jogo** apenas se um estado salvo existir
+- Toca música de menu automaticamente
 
-* [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+### Preparação de Combate
+- Carrega lista de monstros filtrada (apenas os que possuem arte disponível)
+- Carrega lista de magias curadas com dano configurado por nível
+- Suporte a **seleção aleatória** de monstro e magia (com SFX)
+- Exibe descrição dinâmica da magia selecionada (dano, tipo, cooldown)
+- Redireciona para uma tela de loading que busca os dados completos antes de iniciar o combate
 
-## Test and Deploy
+### Combate por Turnos
+- **Ataque físico:** rola 1d20 + bônus vs. CA do monstro; dano com dado próprio do jogador
+- **Magia:** causa dano mágico tipado, aplica imunidade/resistência/vulnerabilidade do monstro, entra em cooldown de 3 turnos
+- **Cura:** uso único por combate, disponível apenas quando o jogador não está com HP máximo
+- **Turno do monstro:** ataque automático com bônus e dado retirados diretamente da API
+- **Desistência:** encerra o combate como derrota imediata
 
-Use the built-in continuous integration in GitLab.
+### Sistema de Dados
+- Suporta notação padrão: `NdX`, `NdX+B`, `NdX-B`
+- Fallback automático para `1d6` em notações inválidas
+- Resultado mínimo garantido de 1
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### Persistência de Estado
+- Estado salvo no `localStorage` a cada troca de turno
+- Jogo pode ser retomado a partir da tela inicial após fechar o navegador
+- Estado limpo ao fim do combate (vitória ou derrota)
 
-***
+### Suporte Offline
+- Service Worker (`sw.js`) para cache de assets estáticos
+- Página dedicada (`offline-page.html`) exibida quando não há conexão disponível
 
-# Editing this README
+### Tratamento de Erros de API
+- Timeout configurável (padrão: 6 segundos)
+- Detecção de ausência de conexão (`navigator.onLine`)
+- Mensagens de erro categorizadas: `TIMEOUT`, `NO_CONNECTION`, `HTTP_ERROR:XXX`
+- Tela dedicada com opção de **tentar novamente** sem perder o contexto da requisição
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+### Tela de Resultado
+- Exibe **Vitória** ou **Derrota** com estilo visual distinto
+- Estatísticas da partida: turnos jogados, uso de cura, HP restante
+- Ações disponíveis: tentar de novo, novo combate, voltar ao início
+- Toca trilha sonora correspondente ao resultado
 
-## Suggestions for a good README
+---
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## Integração com a API
 
-## Name
-Choose a self-explaining name for your project.
+**Base URL:** `https://www.dnd5eapi.co/api/2014`
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+| Endpoint | Uso |
+|---|---|
+| `GET /monsters` | Lista todos os monstros |
+| `GET /monsters/{index}` | Dados completos de um monstro |
+| `GET /spells` | Lista todas as magias |
+| `GET /spells/{index}` | Dados completos de uma magia |
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+Os monstros e magias exibidos ao jogador são **subconjuntos curados** — apenas entradas com arte disponível no projeto ou com dano configurável são incluídas.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+### Normalização de Monstros
+Os dados brutos da API são normalizados pela função `normalizeMonster()`, que extrai:
+- HP e CA (com suporte a múltiplos formatos de resposta)
+- Bônus de ataque e dado de dano da primeira ação disponível
+- Listas de imunidade, resistência e vulnerabilidade a dano
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+### Magias
+O dano final da magia é resolvido com base no nível:
+- **Cantrip (nível 0):** `damage_at_character_level[1]`
+- **Nível 1:** `damage_at_slot_level[1]`
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+---
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## Dependências
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+| Biblioteca | Uso |
+|---|---|
+| [Howler.js](https://howlerjs.com/) | Reprodução de músicas e efeitos sonoros |
+| [anime.js](https://animejs.com/) | Animações de impacto no sprite do monstro |
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+Ambas são servidas **localmente** via `libs/`.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+---
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## Assets
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+### Músicas (`/assets/audio/music/`)
+| Arquivo | Contexto |
+|---|---|
+| `main-menu.mp3` | Tela inicial |
+| `preparation.mp3` | Seleção de monstro e magia |
+| `combat.mp3` | Durante o combate |
+| `victory.mp3` | Tela de vitória |
+| `game-over.mp3` | Tela de derrota |
 
-## License
-For open source projects, say how it is licensed.
+### SFX (`/assets/audio/sfx/`)
+| Arquivo | Contexto |
+|---|---|
+| `hit.wav` | Acerto físico |
+| `miss.wav` | Ataque errado |
+| `spell.wav` | Conjuração de magia |
+| `heal.wav` | Uso de cura |
+| `random.wav` | Seleção aleatória |
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+### Monstros Disponíveis
+`adult-bronze-dragon`, `balor`, `berserker`, `bugbear`, `cockatrice`, `dretch`, `gargoyle`, `giant-ape`, `giant-octopus`, `giant-scorpion`, `giant-shark`, `goblin`, `hell-hound`, `hill-giant`, `knight`, `lich`, `lion`, `lizardfolk`, `mimic`, `mummy-lord`, `nightmare`, `satyr`, `skeleton`, `spider`, `stone-golem`, `werewolf`, `worg`
+
+### Magias Disponíveis
+`acid-splash`, `burning-hands`, `chill-touch`, `eldritch-blast`, `fire-bolt`, `guiding-bolt`, `magic-missile`, `ray-of-frost`, `shocking-grasp`, `thunderwave`
+
+---
+
+## Tecnologias
+
+- **Vanilla JavaScript** — ES Modules nativos, sem transpilação
+- **HTML5 / CSS3** — Custom Properties, layouts responsivos
+- **Service Worker** — Cache offline e resiliência de rede
+- **Vercel** — Hospedagem e deploy contínuo
+
+---
+
+## Licença
+
+Projeto desenvolvido por **Roger Marllus Oliveira Leal** como atividade de estágio na **PD Case**.  
+Os dados de D&D 5e são fornecidos pela [D&D 5e API](https://www.dnd5eapi.co/) sob a licença da Wizards of the Coast.

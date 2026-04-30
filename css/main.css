@@ -149,6 +149,13 @@ h2 {
   height: clamp(28px, 3.5vw, 35px);
 }
 
+
+/* TELA DE CRÉDITOS */
+
+#credits, #achievements {
+  text-align: center;
+}
+
 /* TELA DE COMBATE */
 
 #combat-display {
