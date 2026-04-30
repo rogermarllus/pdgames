@@ -19,7 +19,7 @@ import { rollDice } from "./utils/dice.js";
 
 import { hitFlash } from "./utils/animations.js";
 
-import { musics } from "./utils/audio.js";
+import { musics, sfx } from "./utils/audio.js";
 
 const MONSTER_TURN_DELAY = 700;
 const RESULT_REDIRECT_DELAY = 1500;
@@ -158,8 +158,10 @@ function runMonsterTurn() {
   const acerto = total >= player.armor_class;
 
   if (!acerto) {
+    sfx.miss.play();
     addLogEntry(`<span class="log-red">${getMonster().name}</span> rolou <span class="log-yellow">${total}</span> e errou ${monster.action_name}!`);
   } else {
+    sfx.hit.play();
     const dano = rollDice(monster.damage_dice);
     applyDamageToPlayer(dano);
     addLogEntry(`<span class="log-red">${getMonster().name}</span> usou ${monster.action_name}, rolou <span class="log-yellow">${total}</span> e causou <span class="log-yellow">${dano}</span> de dano!`);
@@ -189,8 +191,10 @@ function onAttack() {
   const acerto = total >= monster.armor_class;
 
   if (!acerto) {
+    sfx.miss.play();
     addLogEntry(`<span class='log-green'>Jogador</span> rolou <span class="log-yellow">${total}</span> e errou o ataque!`);
   } else {
+    sfx.hit.play();
     const dano = rollDice(player.damage_dice);
     applyDamageToMonster(dano);
     hitFlash("attack");
@@ -207,6 +211,8 @@ function onAttack() {
 
 /* Conjuração do Jogador */
 function onCast() {
+  sfx.spell.play();
+
   const spell = getSpell();
 
   const dano = rollDice(spell.final_damage);
@@ -238,6 +244,8 @@ function onCast() {
 /* Cura do Jogador */
 function onHeal() {
   if (!isHealAvailable()) return;
+
+  sfx.heal.play();
 
   const player = getPlayer();
   const cura = rollDice(player.heal_dice);

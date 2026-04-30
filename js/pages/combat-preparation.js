@@ -8,7 +8,7 @@ import {
   showSpellDescription,
 } from "../ui.js";
 
-import { musics } from "../utils/audio.js";
+import { musics, sfx } from "../utils/audio.js";
 
 function navigateTo(path) {
   window.location.href = path;
@@ -77,6 +77,8 @@ function selectRandomMonster() {
 
   if (!options.length) return;
 
+  sfx.random.play();
+
   const randomIndex = Math.floor(Math.random() * options.length);
   select.selectedIndex = randomIndex;
   sessionStorage.setItem("monsterWasRandom", "true");
@@ -87,6 +89,8 @@ async function selectRandomSpell() {
   const options = select.options;
 
   if (!options.length) return;
+
+  sfx.random.play();
 
   const randomIndex = Math.floor(Math.random() * options.length);
   select.selectedIndex = randomIndex;
