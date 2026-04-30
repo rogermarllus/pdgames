@@ -84,6 +84,7 @@ function beginCombat() {
 }
 
 function resumeCombat() {
+  musics.combat.play();
   turnCount = 1;
   clearLog();
   updateMonsterHud(getMonster());
