@@ -1,3 +1,5 @@
+import { musics } from "../utils/audio.js";
+
 const raw = sessionStorage.getItem("combatResult");
 
 if (!raw) {
@@ -45,4 +47,10 @@ if (!raw) {
   home.className = "btn";
   home.textContent = "VOLTAR AO INÍCIO";
   actions.appendChild(home);
+
+  if (isVictory) {
+    musics.victory.play();
+  } else {
+    musics.gameOver.play();
+  }
 }
