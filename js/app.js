@@ -7,6 +7,7 @@ import {
   getSpell,
   getSpellCooldown, setSpellCooldown, tickSpellCooldown, isSpellAvailable,
   loadState, restoreState, clearSavedState,
+  pushLog, getLog, clearLogState,
 } from "./game.js";
 
 import {
@@ -25,6 +26,11 @@ const MONSTER_TURN_DELAY = 700;
 const RESULT_REDIRECT_DELAY = 1500;
 
 let turnCount = 1;
+
+function logEntry(message) {
+  addLogEntry(message);
+  pushLog(message);
+}
 
 function init() {
   // Carregar Jogo
@@ -70,6 +76,7 @@ function beginCombat() {
   musics.combat.play();
   turnCount = 1;
   clearLog();
+  clearLogState();
   startCombat();
   updateMonsterHud(getMonster());
   updatePlayerHud(getPlayer());
@@ -77,21 +84,22 @@ function beginCombat() {
 
   if (sessionStorage.getItem("monsterWasRandom") === "true") {
     sessionStorage.removeItem("monsterWasRandom");
-    addLogEntry(`Monstro aleatório <span class="log-red">${getMonster().name}</span> foi selecionado!`);
+    logEntry(`Monstro aleatório <span class="log-red">${getMonster().name}</span> foi selecionado!`);
   }
 
-  addLogEntry(`Combate iniciado contra <span class="log-red">${getMonster().name}</span>!`);
+  logEntry(`Combate iniciado contra <span class="log-red">${getMonster().name}</span>!`);
 }
 
 function resumeCombat() {
   musics.combat.play();
   turnCount = 1;
   clearLog();
+  getLog().forEach(entry => logEntry(entry));
   updateMonsterHud(getMonster());
   updatePlayerHud(getPlayer());
   refreshActionButtons();
 
-  addLogEntry(`Jogo carregado! Combate retomado contra <span class="log-red">${getMonster().name}</span>.`);
+  logEntry(`Jogo carregado! Combate retomado contra <span class="log-red">${getMonster().name}</span>.`);
 
   if (!isPlayerTurn()) {
     setTimeout(runMonsterTurn, MONSTER_TURN_DELAY);
@@ -134,14 +142,14 @@ function saveResultAndRedirect(outcome) {
 
 function checkCombatEnd() {
   if (getMonster().hit_points <= 0) {
-    addLogEntry(`<span class='log-green'>Vitória!</span> Você derrotou <span class="log-red">${getMonster().name}</span>!`);
+    logEntry(`<span class='log-green'>Vitória!</span> Você derrotou <span class="log-red">${getMonster().name}</span>!`);
     endCombat();
     disableAllActions();
     saveResultAndRedirect("victory");
     return true;
   }
   if (getPlayer().hit_points <= 0) {
-    addLogEntry("<span class='log-red'>Fim de Jogo!</span> Você foi derrotado!");
+    logEntry("<span class='log-red'>Fim de Jogo!</span> Você foi derrotado!");
     endCombat();
     disableAllActions();
     saveResultAndRedirect("defeat");
@@ -160,12 +168,12 @@ function runMonsterTurn() {
 
   if (!acerto) {
     sfx.miss.play();
-    addLogEntry(`<span class="log-red">${getMonster().name}</span> rolou <span class="log-yellow">${total}</span> e errou ${monster.action_name}!`);
+    logEntry(`<span class="log-red">${getMonster().name}</span> rolou <span class="log-yellow">${total}</span> e errou ${monster.action_name}!`);
   } else {
     sfx.hit.play();
     const dano = rollDice(monster.damage_dice);
     applyDamageToPlayer(dano);
-    addLogEntry(`<span class="log-red">${getMonster().name}</span> usou ${monster.action_name}, rolou <span class="log-yellow">${total}</span> e causou <span class="log-yellow">${dano}</span> de dano!`);
+    logEntry(`<span class="log-red">${getMonster().name}</span> usou ${monster.action_name}, rolou <span class="log-yellow">${total}</span> e causou <span class="log-yellow">${dano}</span> de dano!`);
     updatePlayerHud(getPlayer());
   }
 
@@ -193,13 +201,13 @@ function onAttack() {
 
   if (!acerto) {
     sfx.miss.play();
-    addLogEntry(`<span class='log-green'>Jogador</span> rolou <span class="log-yellow">${total}</span> e errou o ataque!`);
+    logEntry(`<span class='log-green'>Jogador</span> rolou <span class="log-yellow">${total}</span> e errou o ataque!`);
   } else {
     sfx.hit.play();
     const dano = rollDice(player.damage_dice);
     applyDamageToMonster(dano);
     hitFlash("attack");
-    addLogEntry(`<span class='log-green'>Jogador</span> rolou <span class="log-yellow">${total}</span> e causou <span class="log-yellow">${dano}</span> de dano!`);
+    logEntry(`<span class='log-green'>Jogador</span> rolou <span class="log-yellow">${total}</span> e causou <span class="log-yellow">${dano}</span> de dano!`);
     updateMonsterHud(getMonster());
   }
 
@@ -233,7 +241,7 @@ function onCast() {
   else if (resultType === 3) extraLog = "O monstro é vulnerável a este tipo de dano!";
 
   const baseLog = `<span class='log-green'>Jogador</span> conjurou ${spell.name} e causou <span class="log-yellow">${finalDamage}</span> de dano de ${spell.damage.damage_type.name}!`;
-  addLogEntry(extraLog ? `${baseLog} ${extraLog}` : baseLog);
+  logEntry(extraLog ? `${baseLog} ${extraLog}` : baseLog);
 
   updateMonsterHud(getMonster());
 
@@ -252,7 +260,7 @@ function onHeal() {
   const cura = rollDice(player.heal_dice);
   healPlayer(cura);
 
-  addLogEntry(`<span class='log-green'>Jogador</span> recuperou ${cura} de HP!`);
+  logEntry(`<span class='log-green'>Jogador</span> recuperou ${cura} de HP!`);
   updatePlayerHud(getPlayer());
 
   tickSpellCooldown();
@@ -261,7 +269,7 @@ function onHeal() {
 
 /* Desistência do Jogador */
 function onSurrender() {
-  addLogEntry("<span class='log-green'>Jogador</span> desistiu do combate...");
+  logEntry("<span class='log-green'>Jogador</span> desistiu do combate...");
   endCombat();
   disableAllActions();
   saveResultAndRedirect("defeat");

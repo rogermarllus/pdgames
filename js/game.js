@@ -21,6 +21,7 @@ function buildInitialState() {
     combatActive: false,
     healUsed: false,
     spellCooldown: 0,
+    log: [],
   };
 }
 
@@ -135,4 +136,16 @@ export function healPlayer(amount) {
 export function nextTurn() {
   state.isPlayerTurn = !state.isPlayerTurn;
   saveState();
+}
+
+export function pushLog(entry) {
+  state.log.push(entry);
+}
+
+export function getLog() {
+  return [...state.log];
+}
+
+export function clearLogState() {
+  state.log = [];
 }
