@@ -32,11 +32,10 @@ export function updateHpBar(barId, current, max) {
   });
 }
 
-export function addLogEntry(message) {
+export function addLogEntry(message, time = new Date().toTimeString().slice(0, 8)) {
   const log = document.getElementById("combat-log");
   if (!log) return;
-
-  const time = new Date().toTimeString().slice(0, 8);
+  
   const entry = document.createElement("p");
   entry.className = "log-entry";
   entry.innerHTML = `<span class="log-grey">[${time}]</span> ${message}`;
