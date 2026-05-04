@@ -28,8 +28,9 @@ const RESULT_REDIRECT_DELAY = 1500;
 let turnCount = 1;
 
 function logEntry(message) {
-  addLogEntry(message);
-  pushLog(message);
+  const time = new Date().toTimeString().slice(0, 8);
+  addLogEntry(message, time);
+  pushLog({ message, time });
 }
 
 function init() {
@@ -94,7 +95,7 @@ function resumeCombat() {
   musics.combat.play();
   turnCount = 1;
   clearLog();
-  getLog().forEach(entry => logEntry(entry));
+  getLog().forEach(({ message, time }) => addLogEntry(message, time));
   updateMonsterHud(getMonster());
   updatePlayerHud(getPlayer());
   refreshActionButtons();
